@@ -47,8 +47,8 @@
                             <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
-                        <label for="basic-url" class="form-label h3">Items</label>
                         <!--ITEM TABLE-->
+                        <label for="basic-url" class="form-label h3">Items</label>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -58,11 +58,13 @@
                                 </tr>
                             </thead>
                             <tbody class="editable-body" id="item-list">
-                                
+
                             </tbody>
                         </table>
                     </div>
+                    <!--MIDDLE COLUMN-->
                     <div class="col-3">
+                        <p class="h6">PO Data</p>
                         <table class="table table-striped">
                             <tbody class="editable-body">
                                 <tr>
@@ -74,7 +76,7 @@
                                     <td>ELP-2022-1</td>
                                 </tr>
                         </table>
-
+                        <!--CURRENT ROW INPUT-->
                         <p class="h6">Rows</p>
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
@@ -87,7 +89,9 @@
                     </div>
                 </div>
             </div>
+            <!--RIGHT BUTTON SET-->
             <div class="col-3">
+                <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
                     <button class="btn btn-success" type="button">Create PO</button>
                     <button class="btn btn-danger" type="button">Clear Form</button>
@@ -95,7 +99,6 @@
                 </div>
             </div>
         </div>
-
     </main>
 </body>
 <script>
@@ -119,22 +122,22 @@
         itemList.appendChild(newRow);
         setEditable();
         var currentInput = document.getElementById("input-row-count");
-        var currentRows= currentInput.getAttribute("value");
+        var currentRows = currentInput.getAttribute("value");
         currentRows++;
-        currentInput.setAttribute("value",currentRows);
+        currentInput.setAttribute("value", currentRows);
     }
 
-    function deleteRowTable(){
+    function deleteRowTable() {
         var itemList = document.getElementById("item-list");
         itemList.removeChild(itemList.lastChild);
 
         var currentInput = document.getElementById("input-row-count");
-        var currentRows= currentInput.getAttribute("value");
+        var currentRows = currentInput.getAttribute("value");
         currentRows--;
-        currentInput.setAttribute("value",currentRows);
+        currentInput.setAttribute("value", currentRows);
     }
 
-    window.addEventListener("DOMContentLoaded", (event)=>{
+    window.addEventListener("DOMContentLoaded", (event) => {
         setEditable();
     });
 
