@@ -14,6 +14,9 @@ app.get('/', (req,res) => {
 const usersRoute = require("./routes/users_route");
 app.use("/users", usersRoute);
 
+const poGenRoute = require("./routes/po_gen_route");
+app.use("/PO_Generator", poGenRoute);
+
 app.listen(port, ()=> 
     console.log(`Server running at http://localhost:${port}`)
 );
