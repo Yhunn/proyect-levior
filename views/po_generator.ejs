@@ -34,17 +34,17 @@
                         <!--FORM PO GENERATOR TODELIVER-->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Project Name</span>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Ship TO</span>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Requisitioner</span>
-                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <label for="basic-url" class="form-label h3">Items</label>
@@ -57,25 +57,8 @@
                                     <th scope="col">Quantity</th>
                                 </tr>
                             </thead>
-                            <tbody class="editable-body">
-                                <tr>
-                                    <td>
-                                        </th>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        </th>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        </th>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                            <tbody class="editable-body" id="item-list">
+                                
                             </tbody>
                         </table>
                     </div>
@@ -91,13 +74,16 @@
                                     <td>ELP-2022-1</td>
                                 </tr>
                         </table>
-                        
+
                         <p class="h6">Rows</p>
                         <div class="input-group mb-3">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon1">-</button>
-                            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" disabled value="3">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon1">+</button>
-                          </div>
+                            <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
+                                onclick="deleteRowTable()">-</button>
+                            <input type="text" class="form-control" aria-label="Current amount of item rows" disabled
+                                value="0" id="input-row-count">
+                            <button class="btn btn-outline-secondary" type="button" id="btn-row-add"
+                                onclick="addRowTable()">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,14 +99,44 @@
     </main>
 </body>
 <script>
-    var tbody = document.getElementsByClassName('editable-body');
+    function setEditable() {
+        var tbody = document.getElementsByClassName('editable-body');
 
-    for (var i = 0; i < tbody.length; i++) {
-        var tds = tbody[i].getElementsByTagName("td");
-        for (var n = 0; n < tds.length; n++) {
-            tds[n].setAttribute('contenteditable', 'true');
+        for (var i = 0; i < tbody.length; i++) {
+            var tds = tbody[i].getElementsByTagName("td");
+            for (var n = 0; n < tds.length; n++) {
+                tds[n].setAttribute('contenteditable', 'true');
+            }
         }
     }
+
+    function addRowTable() {
+        var itemList = document.getElementById("item-list");
+        var newRow = document.createElement("tr");
+        for (let i = 0; i < 3; i++) {
+            newRow.appendChild(document.createElement("td"));
+        }
+        itemList.appendChild(newRow);
+        setEditable();
+        var currentInput = document.getElementById("input-row-count");
+        var currentRows= currentInput.getAttribute("value");
+        currentRows++;
+        currentInput.setAttribute("value",currentRows);
+    }
+
+    function deleteRowTable(){
+        var itemList = document.getElementById("item-list");
+        itemList.removeChild(itemList.lastChild);
+
+        var currentInput = document.getElementById("input-row-count");
+        var currentRows= currentInput.getAttribute("value");
+        currentRows--;
+        currentInput.setAttribute("value",currentRows);
+    }
+
+    window.addEventListener("DOMContentLoaded", (event)=>{
+        setEditable();
+    });
 
 </script>
 
