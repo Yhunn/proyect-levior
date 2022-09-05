@@ -35,18 +35,18 @@
                         <!--FORM PO GENERATOR TODELIVER-->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Project Name</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="null" aria-label="placeholder"
+                                aria-describedby="basic-addon1" id="project-name-input">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Ship TO</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="null" aria-label="placeholder"
+                                aria-describedby="basic-addon1" id="ship-to-input">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Requisitioner</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="null" aria-label="placeholder"
+                                aria-describedby="basic-addon1" id="requisitioner-input">
                         </div>
                         <!--ITEM TABLE-->
                         <label for="basic-url" class="form-label h3">Items</label>
@@ -74,7 +74,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Purchase Order No.</th>
-                                    <td>ELP-2022-1</td>
+                                    <td id="customID">ELP-2022-1</td>
                                 </tr>
                         </table>
                         <!--CURRENT ROW INPUT-->
@@ -94,9 +94,9 @@
             <div class="col-3">
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-success" type="button" onclick="post_PO();">Create PO</button>
+                    <button class="btn btn-success" type="button" onclick="push_PO();">Create PO</button>
                     <button class="btn btn-danger" type="button">Clear Form</button>
-                    <button class="btn btn-primary" type="button">Return to Menu</button>
+                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                 </div>
             </div>
         </div>
@@ -161,23 +161,35 @@
 </script>
 <!--JQUERY FUNCTIONS-->
 <script>
-    function post_PO() {
+    function push_PO() {
         $('#tablePO > tbody > tr').each(function () {
+            var pName = $("#project-name-input").val();
+            var shipTo = $("#ship-to-input").val();
+            var req = $("#requisitioner-input").val();
+
             var model = $(this).find(".model").text();
             var desc = $(this).find(".desc").text();
             var qnty = $(this).find(".qnty").text();
 
+            var poID = $("#customID").html();
+
             $.post("PO_Generator/save", {
+                pName: pName,
+                shipTo: shipTo,
+                req: req,
                 model: model,
                 desc: desc,
-                qnty: qnty
+                qnty: qnty,
+                poID: poID
             },
                 function (data, status) { });
             $(this).remove();
 
-            $("#input-row-count").attr("value", "0");
-
         });
+        $("#project-name-input").val("");
+        $("#ship-to-input").val("");
+        $("#requisitioner-input").val("");
+        $("#input-row-count").attr("value", "0");
     }
 </script>
 
