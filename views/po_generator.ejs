@@ -95,7 +95,7 @@
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
                     <button class="btn btn-success" type="button" onclick="push_PO();">Create PO</button>
-                    <button class="btn btn-danger" type="button">Clear Form</button>
+                    <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear Form</button>
                     <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                 </div>
             </div>
@@ -162,34 +162,39 @@
 <!--JQUERY FUNCTIONS-->
 <script>
     function push_PO() {
-        $('#tablePO > tbody > tr').each(function () {
-            var pName = $("#project-name-input").val();
-            var shipTo = $("#ship-to-input").val();
-            var requis = $("#requisitioner-input").val();
+        var rowCount = $("#input-row-count").val();
+        if (rowCount > 0) {
+            $('#tablePO > tbody > tr').each(function () {
+                var pName = $("#project-name-input").val();
+                var shipTo = $("#ship-to-input").val();
+                var requis = $("#requisitioner-input").val();
 
-            var model = $(this).find(".model").text();
-            var desc = $(this).find(".desc").text();
-            var qnty = $(this).find(".qnty").text();
+                var model = $(this).find(".model").text();
+                var desc = $(this).find(".desc").text();
+                var qnty = $(this).find(".qnty").text();
 
-            var poID = $("#customID").html();
+                var poID = $("#customID").html();
 
-            $.post("PO_Generator/save", {
-                pName: pName,
-                shipTo: shipTo,
-                requis: requis,
-                model: model,
-                desc: desc,
-                qnty: qnty,
-                poID: poID
-            },
-                function (data, status) { });
-            $(this).remove();
-
-        });
-        $("#project-name-input").val("");
-        $("#ship-to-input").val("");
-        $("#requisitioner-input").val("");
-        $("#input-row-count").attr("value", "0");
+                $.post("PO_Generator/save", {
+                    pName: pName,
+                    shipTo: shipTo,
+                    requis: requis,
+                    model: model,
+                    desc: desc,
+                    qnty: qnty,
+                    poID: poID
+                },
+                    function (data, status) { });
+                $(this).remove();
+            });
+            $("#project-name-input").val("");
+            $("#ship-to-input").val("");
+            $("#requisitioner-input").val("");
+            $("#input-row-count").attr("value", "0");
+        }
+        else{
+            alert("No hay datos")
+        }
     }
 </script>
 
