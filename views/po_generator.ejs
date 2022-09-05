@@ -165,7 +165,7 @@
         $('#tablePO > tbody > tr').each(function () {
             var pName = $("#project-name-input").val();
             var shipTo = $("#ship-to-input").val();
-            var req = $("#requisitioner-input").val();
+            var requis = $("#requisitioner-input").val();
 
             var model = $(this).find(".model").text();
             var desc = $(this).find(".desc").text();
@@ -176,7 +176,7 @@
             $.post("PO_Generator/save", {
                 pName: pName,
                 shipTo: shipTo,
-                req: req,
+                requis: requis,
                 model: model,
                 desc: desc,
                 qnty: qnty,

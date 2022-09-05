@@ -2,12 +2,29 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.get('/', (req,res)=>{
+router.get('/', (req, res) => {
     res.render("po_generator.ejs");
 });
 
-router.post('/save',(req,res)=>{
-    console.log(req.body);
+router.post('/save', (req, res) => {
+    let { pName,
+        shipTo,
+        requis,
+        model,
+        desc,
+        qnty,
+        poID } = req.body;
+
+    //DATABASE INSERT QUERY - FOR CATEGORY
+    try {
+        db.query(`INSERT INTO $1:name VALUES(default, $2, $3, $4, $5, $6, $7, $8, $9)`, ['po_toDeliver_provisional'
+        , poID, pName, shipTo, requis, model, desc, qnty, false])
+            .then(response => {
+                console.log("query successful, data added to database");
+            });
+    } catch (err) {
+        console.warn("Unable to insert into database");
+    }
 });
 
 module.exports = router;
