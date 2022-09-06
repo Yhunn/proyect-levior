@@ -20,7 +20,7 @@
                 <a class="navbar-brand" href="/">
                     <img src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24"
                         class="d-inline-block align-text-top">
-                    Levior
+                    Levior Energy
                 </a>
             </div>
         </nav>
@@ -34,32 +34,32 @@
                         <!--FORM PO GENERATOR TODELIVER-->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Project Name</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
+                            <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Ship TO</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
+                            <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Requisitioner</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
+                            <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">SHIP VIA</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
+                            <input type="text" class="form-control" placeholder="Ship VIA" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">F.O.B.</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
+                            <input type="text" class="form-control" placeholder="F.O.B." aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Shipping Terms</span>
-                            <input type="text" class="form-control" placeholder="placeholder" aria-label="placeholder"
+                            <input type="text" class="form-control" placeholder="Shipping Terms" aria-label="placeholder"
                                 aria-describedby="basic-addon1">
                         </div>
                         <!--ITEM TABLE-->
@@ -85,9 +85,11 @@
                             <label class="input-group-text" for="inputGroupSelect01">PO No.</label>
                             <select class="form-select" id="inputGroupSelect01">
                                 <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <% for(var i=0; i<poList.length; i++) { %>
+                                    <option value="<%= i+1 %> ">
+                                        <%= poList[i] %>
+                                    </option>
+                                <% } %>
                             </select>
                         </div>
                         <p class="h6">PO Data</p>
@@ -118,10 +120,4 @@
         </div>
     </main>
 </body>
-
-<script>
-    window.addEventListener("DOMContentLoaded", (event) => {
-        console.log("<%= poList %> aa");
-    });
-</script>
 </html>
