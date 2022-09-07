@@ -65,7 +65,7 @@
                         </div>
                         <!--ITEM TABLE-->
                         <label for="basic-url" class="form-label h3">Items</label>
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="tablePO">
                             <thead>
                                 <tr>
                                     <th scope="col">Model</th>
@@ -111,7 +111,7 @@
             <div class="col-3">
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-success" type="button">Supply PO</button>
+                    <button class="btn btn-success" type="button" onclick="pushSupply()">Supply PO</button>
                     <button class="btn btn-secondary" type="button" onclick="window.print()">Print PDF</button>
                     <button class="btn btn-danger" type="button" onclick="clearAll()">Clear Form</button>
                     <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
@@ -170,7 +170,7 @@
                     });
                     setEditable();
                 });
-            
+
         }
     }
 
@@ -199,6 +199,41 @@
         $("#input-fob").val("");
         $("#input-terms").val("");
         clearTable();
+    }
+
+    function pushSupply() {
+        $('#tablePO > tbody > tr').each(function () {
+            var pName = $("#input-name").val();
+            var shipTo = $("#input-ship").val();
+            var requis = $("#input-req").val();
+            var via = $("#input-via").val();
+            var fob = $("#input-fob").val();
+            var terms = $("#input-terms").val();
+
+            var model = $(this).find(".model").text();
+            var alt = $(this).find(".alt").text();
+            var desc = $(this).find(".desc").text();
+            var qnty = $(this).find(".qnty").text();
+
+            var poID = $("#inputGroupSelect01 option:selected").val();
+
+            $.post("PO_Query/save", {
+                pName: pName,
+                shipTo: shipTo,
+                requis: requis,
+                via: via,
+                fob: fob,
+                terms: terms,
+                model: model,
+                alt: alt,
+                desc: desc,
+                qnty: qnty,
+                poID: poID
+            },
+                function (data, status) { });
+            $(this).remove();
+        });
+        clearAll();
     }
 </script>
 
