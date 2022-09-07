@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -33,34 +34,34 @@
                     <div class="col-sm-9">
                         <!--FORM PO GENERATOR TODELIVER-->
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Project Name</span>
+                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Project Name</span>
                             <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                                aria-describedby="basic-addon1" id="input-name">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Ship TO</span>
+                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Ship TO</span>
                             <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                                aria-describedby="basic-addon1" id="input-ship">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Requisitioner</span>
+                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Requisitioner</span>
                             <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                                aria-describedby="basic-addon1" id="input-req">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">SHIP VIA</span>
+                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">SHIP VIA</span>
                             <input type="text" class="form-control" placeholder="Ship VIA" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                                aria-describedby="basic-addon1" id="input-via">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">F.O.B.</span>
+                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">F.O.B.</span>
                             <input type="text" class="form-control" placeholder="F.O.B." aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                                aria-describedby="basic-addon1" id="input-fob">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Shipping Terms</span>
-                            <input type="text" class="form-control" placeholder="Shipping Terms" aria-label="placeholder"
-                                aria-describedby="basic-addon1">
+                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Shipping Terms</span>
+                            <input type="text" class="form-control" placeholder="Shipping Terms"
+                                aria-label="placeholder" aria-describedby="basic-addon1" id="input-terms">
                         </div>
                         <!--ITEM TABLE-->
                         <label for="basic-url" class="form-label h3">Items</label>
@@ -73,8 +74,7 @@
                                     <th scope="col">Quantity</th>
                                 </tr>
                             </thead>
-                            <tbody class="editable-body" id="item-list">
-
+                            <tbody class="editable-body" id="body-to-populate">
                             </tbody>
                         </table>
                     </div>
@@ -83,13 +83,13 @@
                         <p class="h6">Load PO</p>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupSelect01">PO No.</label>
-                            <select class="form-select" id="inputGroupSelect01">
-                                <option selected>Choose...</option>
+                            <select class="form-select" id="inputGroupSelect01" onchange="selectPO()">
+                                <option selected value="0">Choose...</option>
                                 <% for(var i=0; i<poList.length; i++) { %>
-                                    <option value="<%= i+1 %> ">
+                                    <option value="<%= poList[i] %> ">
                                         <%= poList[i] %>
                                     </option>
-                                <% } %>
+                                    <% } %>
                             </select>
                         </div>
                         <p class="h6">PO Data</p>
@@ -112,12 +112,94 @@
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
                     <button class="btn btn-success" type="button">Supply PO</button>
-                    <button class="btn btn-secondary" type="button">Print PDF</button>
-                    <button class="btn btn-danger" type="button">Clear Form</button>
-                    <button class="btn btn-primary" type="button">Return to Menu</button>
+                    <button class="btn btn-secondary" type="button" onclick="window.print()">Print PDF</button>
+                    <button class="btn btn-danger" type="button" onclick="clearAll()">Clear Form</button>
+                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                 </div>
             </div>
         </div>
     </main>
 </body>
+<script>
+    //SELECT PO FUNCTION FETCH DATA
+    function selectPO() {
+        var select = document.getElementById('inputGroupSelect01');
+        var value = select.options[select.selectedIndex].value;
+        if (value != 0) {
+            clearAll();
+            fetch('/PO_Query/populate', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    dataSearch: value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(row => {
+                        document.getElementById("input-name").value = row.projectName;
+                        document.getElementById("input-ship").value = row.shipTo;
+                        document.getElementById("input-req").value = row.requisitioner;
+
+                        var itemList = document.getElementById("body-to-populate");
+                        var newRow = document.createElement("tr");
+
+                        var modelCell = document.createElement("td");
+                        modelCell.classList.add("model");
+                        modelCell.innerHTML = row.model;
+
+                        var altCell = document.createElement("td");
+                        altCell.classList.add("alt");
+
+                        var descCell = document.createElement("td");
+                        descCell.classList.add("desc");
+                        descCell.innerHTML = row.description;
+
+                        var qntyCell = document.createElement("td");
+                        qntyCell.classList.add("qnty");
+                        qntyCell.innerHTML = row.quantity;
+
+                        newRow.appendChild(modelCell);
+                        newRow.appendChild(altCell);
+                        newRow.appendChild(descCell);
+                        newRow.appendChild(qntyCell);
+
+                        itemList.appendChild(newRow);
+                    });
+                    setEditable();
+                });
+            
+        }
+    }
+
+    function setEditable() {
+        var tbody = document.getElementsByClassName('editable-body');
+
+        for (var i = 0; i < tbody.length; i++) {
+            var tds = tbody[i].getElementsByTagName("td");
+            for (var n = 0; n < tds.length; n++) {
+                tds[n].setAttribute('contenteditable', 'true');
+            }
+        }
+    }
+</script>
+<script>
+    //JQUERY FUNCTIONS
+    function clearTable() {
+        $("#body-to-populate").html("");
+    }
+
+    function clearAll() {
+        $("#input-name").val("");
+        $("#input-ship").val("");
+        $("#input-req").val("");
+        $("#input-via").val("");
+        $("#input-fob").val("");
+        $("#input-terms").val("");
+        clearTable();
+    }
+</script>
+
 </html>
