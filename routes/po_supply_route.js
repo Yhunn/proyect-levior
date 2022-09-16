@@ -10,7 +10,7 @@ router.get('/', (req,res)=>{
                 rows.forEach(row =>{
                     poToDeliverList.push(row.identifierOrder);
                 });
-                res.render("po_query.ejs",{poList: poToDeliverList});
+                res.render("po_supply.ejs",{poList: poToDeliverList});
             });
     } catch (err) {
         console.warn("Unable to insert into database");
