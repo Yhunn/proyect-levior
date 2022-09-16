@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.get('/', checkPermissions, (req, res) => {
+router.get('/', checkPermissionsForPOGenerator, (req, res) => {
     res.render("po_generator.ejs");
 });
 
@@ -28,7 +28,7 @@ router.post('/save', (req, res) => {
 });
 
 //MIDDLEWARE FUNCTIONS
-function checkPermissions(req, res, next) {
+function checkPermissionsForPOGenerator(req, res, next) {
     if(req.isAuthenticated()){
         const allowedPermisionsForPOGenerator = ['*','1'];
         var userPermissions = String(req.user.role).split(',');
