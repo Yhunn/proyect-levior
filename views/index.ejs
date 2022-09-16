@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -46,46 +47,50 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled">Admin </a>
+                            <a class="nav-link disabled"><%= username %>  </a>
                         </li>
                     </ul>
-                    <!-- SEARCH BOX -->
+                    <!-- LOGOUT BTN -->
                     <form class="d-flex" role="logout" action='/logout?_method=DELETE' method="POST">
-                        
                         <button class="btn btn-outline-danger" type="submit">Log Out</button>
                     </form>
                 </div>
             </div>
         </nav>
     </header>
+
+    <!-- MAIN AND ELEMENTS TO LOAD -->
     <main style="margin-left: 15px;margin-right: 15px;">
         <p class="h1">Home</p>
 
         <p class="h3">Available Tools</p>
-
         <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Purchase Order Generator</h5>
-                        <p class="card-text">Generate new Purchase Orders and queue them to deliver.</p>
-                        <a href="/PO_Generator" class="btn btn-primary">Open Tool</a>
+            <% const permissionsForPOGen = ['*','1'] %>
+            <% if (permissionsForPOGen.some(r=> views.includes(r))) { %>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Purchase Order Generator</h5>
+                            <p class="card-text">Generate new Purchase Orders and queue them to deliver.</p>
+                            <a href="/PO_Generator" class="btn btn-primary">Open Tool</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Purchase Order Supply</h5>
-                        <p class="card-text">Edit, validate and supply incoming Purchase Orders.</p>
-                        <a href="/PO_Supply" class="btn btn-primary">Open Tool</a>
+            <% } %> 
+            <% const permissionsForPOSupply = ['*','2'] %> 
+            <% if (permissionsForPOSupply.some(r=> views.includes(r))) { %>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Purchase Order Supply</h5>
+                            <p class="card-text">Edit, validate and supply incoming Purchase Orders.</p>
+                            <a href="/PO_Supply" class="btn btn-primary">Open Tool</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
+            <% } %>
         </div>
 
     </main>
 </body>
-
 </html>

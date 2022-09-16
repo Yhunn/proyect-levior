@@ -28,7 +28,8 @@ initializePassport(passport);
 
 //FEEDING SERVER THE ROUTES TO THE VIEWS
 app.get('/', checkAuthenticated, (req,res) => {
-    res.render("index.ejs");
+    var permissions = String(req.user.role).split(',');
+    res.render("index.ejs",{ views: permissions, username: req.user.name });
 });
 
 app.delete('/logout', function(req, res, next) {
