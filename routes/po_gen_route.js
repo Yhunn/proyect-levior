@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.get('/', (req, res) => {
+router.get('/', checkPermissions, (req, res) => {
     res.render("po_generator.ejs");
 });
 
@@ -26,5 +26,18 @@ router.post('/save', (req, res) => {
         console.warn("Unable to insert into database");
     }
 });
+
+//MIDDLEWARE FUNCTIONS
+function checkPermissions(req, res, next) {
+    if(req.isAuthenticated()){
+        const allowedPermisionsForPOGenerator = ['*','1'];
+        var userPermissions = String(req.user.role).split(',');
+
+        if(allowedPermisionsForPOGenerator.some(permision=> userPermissions.includes(permision))){
+            return next();
+        }
+    }
+    res.redirect('/');
+}
 
 module.exports = router;

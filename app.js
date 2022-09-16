@@ -23,6 +23,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
+//CODE TO LOCALLY SAVE ALL USERS
 const initializePassport = require('./passport-config');
 initializePassport(passport);
 

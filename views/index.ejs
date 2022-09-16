@@ -65,6 +65,7 @@
 
         <p class="h3">Available Tools</p>
         <div class="row">
+            <!-- CHECK PERMISSIONS TO LOAD PO GENERATOR-->
             <% const permissionsForPOGen = ['*','1'] %>
             <% if (permissionsForPOGen.some(r=> views.includes(r))) { %>
                 <div class="col-sm-6">
@@ -76,7 +77,8 @@
                         </div>
                     </div>
                 </div>
-            <% } %> 
+            <% } %>
+            <!-- CHECK PERMISSIONS TO LOAD PO SUPPLY-->
             <% const permissionsForPOSupply = ['*','2'] %> 
             <% if (permissionsForPOSupply.some(r=> views.includes(r))) { %>
                 <div class="col-sm-6">
