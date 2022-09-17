@@ -38,6 +38,16 @@ router.get('/', checkPermissionsForPOGenerator, (req, res) => {
     }
 });
 
+router.get('/productData', (req,res)=>{
+    db.any("SELECT * FROM products")
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 router.post('/save', (req, res) => {
     let { pName,
         shipTo,

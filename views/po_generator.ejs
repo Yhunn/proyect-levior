@@ -84,10 +84,10 @@
                 <p class="h6">Rows</p>
                 <div class="input-group mb-3">
                     <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
-                        onclick="deleteRowTable()">-</button>
+                        onclick="removeRowPO()">-</button>
                     <input type="text" class="form-control" aria-label="Current amount of item rows" disabled value="0"
                         id="input-row-count">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-row-add" onclick="">+</button>
+                    <button class="btn btn-outline-secondary" type="button" id="btn-row-add" onclick="addRowPO()">+</button>
                 </div>
             </div>
             <!-- COLUMN BUTTONS-->
@@ -116,33 +116,7 @@
                     </tr>
                 </thead>
                 <tbody id="item-list">
-                    <tr style="vertical-align: middle;">
-                        <td>
-                            <select class="form-select" id="inputGroupSelect01">
-                                <option selected value="0">Choose...</option>
-                                <option value="categoria">SQR CANOPY</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="selectpicker form-select " id="inputGroupSelect01" onfocus='this.size=5;'
-                                onblur='this.size=1;' onchange='this.size=1; this.blur();'>
-                                <option selected value="0">Choose...</option>
-                                <option value="categoria">LEDSION Hazardous LED Floodlight, 100W 50K, Die Cast Aluminum Gray color,Temper Glass,Anti-Dust,Water-proof, PCB Heat Index 2.0, Applicate in Zone1 & Zone2 gaseous environment, and Zone21 & Zone22 dust environment
-                                </option>
-                            </select>
-                        </td>
-                        <td>LL-NCPV4-55WXYZ-aaK</td>
-                        <td>LEVIOR</td>
-                        <td class="dollars">64.13</td>
-                        <td class="euros">86.57</td>
-                        <td>
-                            <div class="input-group">
-                                <button class="btn btn-outline-secondary" type="button">-</button>
-                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="0" disabled>
-                                <button class="btn btn-outline-secondary" type="button">+</button>
-                              </div>
-                        </td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
@@ -207,6 +181,7 @@
 </script>
 <!--JQUERY FUNCTIONS-->
 <script>
+    //NOT WORKING
     function push_PO() {
         var rowCount = $("#input-row-count").val();
         if (rowCount > 0) {
@@ -242,25 +217,74 @@
             alert("No hay datos")
         }
     }
+
+    var productsArray = [];
+    $(document).ready(function(){
+        fetch('/PO_Generator/productData')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(row =>{
+                productsArray.push({
+                    id: row.id,
+                    category: row.category,
+                    dlc: row.dlc_or_es_model_no,
+                    brand: row.brand,
+                    specification: row.specification,
+                    subsidiary: row.subsidiary,
+                    publicCost: row.public_cost,
+                    unit: row.measurement_unit
+                });
+            });
+        });
+    });
+
     function addRowPO(){
-        console.log('CREATE NEW ROW');
-        //CREATE TR
-        //FETCH EVERY CATEGORY TO FEED CATEGORY SELECT
-        //ADD SELECT FETCHCATEGORYDATA FUNCTION ON CHANGE
-        //CREATE TD WITH CATEGORY SELECT
-        //CREATE DISABLED TD WITH DISABLED SELECT FOR SPECIFICATION WITH THESE: onfocus='this.size=5;'
-                                //onblur='this.size=1;' onchange='this.size=1; this.blur();'
-        //CREATE FOUR NEW DISABLED EMPTY TD
-        /*
-            CREATE TD WITH THE FOLLOWING:
-            <div class="input-group">
-                                <button class="btn btn-outline-secondary" type="button">-</button>
+        $('#item-list').append(`<tr style="vertical-align: middle;">
+                        <td>
+                            <select class="form-select product-category">
+                                <option selected value="0">Choose...</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="selectpicker form-select product-specif" onfocus='this.size=5;'
+                                onblur='this.size=1;' onchange='this.size=1; this.blur();' disabled >
+                                <option selected value="0">Choose...</option>
+                            </select>
+                        </td>
+                        <td class="product-dlc"></td>
+                        <td class="product-brand"></td>
+                        <td class="product-subsidiary"></td>
+                        <td class="product-public-cost"></td>
+                        <td>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary" type="button" disabled>-</button>
                                 <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="0" disabled>
-                                <button class="btn btn-outline-secondary" type="button">+</button>
+                                <button class="btn btn-outline-secondary" type="button" disabled>+</button>
                               </div>
-        */
-        //ADD RESPECTIVE CLASSES TO EVERY TD
+                        </td>
+                    </tr>`);
+        var uniqueCategories = [];
+        productsArray.forEach(product =>{
+            if(!uniqueCategories.includes(product.category)){
+                uniqueCategories.push(product.category);
+                $('#item-list tr:last-child').find('.product-category').append($('<option>',{
+                    value: product.category,
+                    text: product.category
+                }));
+            }
+        });
+        var rowCount = +$("#input-row-count").val() + 1;
+        $("#input-row-count").val(rowCount);
     }
+    
+    function removeRowPO(){
+        var rowCount = $("#input-row-count").val();
+        if(rowCount>0){
+            $('#item-list tr:last-child').remove();
+            $("#input-row-count").val(rowCount-1);
+        }
+    }
+
     function fetchCategoryData(){
         console.log('POST CATEGORY TO RETURN THE DIFFERENT SPECIFICATIONS AND FEED'+
         'THEM TO SPECIFICATION SELECTION, DELETES REMAINING ROWS INFO DISABLES BUTTONS')
