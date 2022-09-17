@@ -207,7 +207,7 @@
                         </td>
                         <td>
                             <select class="selectpicker form-select product-specif" onfocus='this.size=5;'
-                                onblur='this.size=1;' onchange='this.size=1; this.blur();' disabled >
+                                onblur='this.size=1;' onchange='this.size=1; populateOffSpecification(this); this.blur();' disabled >
                                 <option selected value="0">Choose...</option>
                             </select>
                         </td>
@@ -217,9 +217,7 @@
                         <td class="product-public-cost"></td>
                         <td>
                             <div class="input-group">
-                                <button class="btn btn-outline-secondary" type="button" disabled>-</button>
-                                <input type="text" class="form-control product-unit" value="0" disabled>
-                                <button class="btn btn-outline-secondary" type="button" disabled>+</button>
+                                <input type="number" class="form-control product-unit" value="0" disabled>
                               </div>
                         </td>
                     </tr>`);
@@ -276,12 +274,37 @@
         row.find('.product-brand').text('');
         row.find('.product-subsidiary').text('');
         row.find('.product-public-cost').text('');
+        row.find('.product-subsidiary').attr('class', 'product-subsidiary');
+        row.find('.product-public-cost').attr('class', 'product-public-cost');
         row.find('.product-unit').val('0');
+        row.find('.product-unit').prop('disabled', true);
     }
 
-    function populateOffSpecification(){
-        console.log('FETCH SPECIFICATION REMAINING DATA TO POPULATE TABLE OFF THE SELECTION'+
-        'AND ENABLE QTY BUTTONS FOR ROW')
+    function populateOffSpecification(selection){
+        var row = $(selection).parent().parent();
+        clearRowData(row);
+        if(selection.value != "0"){
+            //POPULATE
+            productsArray.forEach(product =>{
+                if(product.specification == selection.value){
+                    row.find('.product-dlc').text(product.dlc);
+                    row.find('.product-brand').text(product.brand);
+                    switch (product.unit) {
+                        case 'EURO':
+                            row.find('.product-subsidiary').addClass('euros');
+                            row.find('.product-public-cost').addClass('euros');
+                            break;
+                        default:
+                            row.find('.product-subsidiary').addClass('dollars');
+                            row.find('.product-public-cost').addClass('dollars');
+                            break;
+                    }
+                    row.find('.product-subsidiary').text(product.subsidiary);
+                    row.find('.product-public-cost').text(product.publicCost);
+                    row.find('.product-unit').prop('disabled', false);
+                }
+            });
+        }
     }
 </script>
 
