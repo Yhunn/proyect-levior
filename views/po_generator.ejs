@@ -12,6 +12,20 @@
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .dollars:before {
+            content: "$ ";
+        }
+
+        .euros:after {
+            content: " €";
+        }
+
+        select {
+            width: 92px;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,73 +42,56 @@
     </header>
     <main style="margin-left: 15px;margin-right: 15px;">
         <p class="h3">Purchase Order Generator</p>
+        <!--
         <li>
-            <%= officeData.officeName %> 
+            <%= //officeData.officeName %> 
         </li>
+        -->
         <div class="row align-items-start">
-            <div class="col-sm-9">
-                <div class="row align-items-start">
-                    <div class="col-sm-9">
-                        <!--FORM PO GENERATOR-->
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Project Name</span>
-                            <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="project-name-input">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Ship TO</span>
-                            <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="ship-to-input">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Requisitioner</span>
-                            <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="requisitioner-input">
-                        </div>
-                        <!--ITEM TABLE-->
-                        <label for="basic-url" class="form-label h3">Items</label>
-                        <table class="table table-striped" id="tablePO">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Model</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody class="editable-body" id="item-list">
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--MIDDLE COLUMN-->
-                    <div class="col-3">
-                        <p class="h6">PO Data</p>
-                        <table class="table table-striped">
-                            <tbody class="editable-body">
-                                <tr>
-                                    <th scope="row">Input Date</th>
-                                    <td>03/09/2022</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Purchase Order No.</th>
-                                    <td id="customID">ELP-2022-1</td>
-                                </tr>
-                        </table>
-                        <!--CURRENT ROW INPUT-->
-                        <p class="h6">Rows</p>
-                        <div class="input-group mb-3">
-                            <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
-                                onclick="deleteRowTable()">-</button>
-                            <input type="text" class="form-control" aria-label="Current amount of item rows" disabled
-                                value="0" id="input-row-count">
-                            <button class="btn btn-outline-secondary" type="button" id="btn-row-add"
-                                onclick="addRowTable()">+</button>
-                        </div>
-                    </div>
+            <!-- COLUMN FORM AND TABLE-->
+            <div class="col-sm-8">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Project Name</span>
+                    <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="project-name-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Ship TO</span>
+                    <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="ship-to-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Requisitioner</span>
+                    <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="requisitioner-input">
                 </div>
             </div>
-            <!--RIGHT BUTTON SET-->
-            <div class="col-3">
+            <!-- COLUMN DATA AND ROWS-->
+            <div class="col">
+                <p class="h6">PO Data</p>
+                <table class="table table-striped">
+                    <tbody class="editable-body">
+                        <tr>
+                            <th scope="row">Input Date</th>
+                            <td>03/09/2022</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Purchase Order No.</th>
+                            <td id="customID">ELP-2022-1</td>
+                        </tr>
+                </table>
+                <!--CURRENT ROW INPUT-->
+                <p class="h6">Rows</p>
+                <div class="input-group mb-3">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
+                        onclick="deleteRowTable()">-</button>
+                    <input type="text" class="form-control" aria-label="Current amount of item rows" disabled value="0"
+                        id="input-row-count">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-row-add" onclick="">+</button>
+                </div>
+            </div>
+            <!-- COLUMN BUTTONS-->
+            <div class="col">
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
                     <button class="btn btn-success" type="button" onclick="push_PO();">Create PO</button>
@@ -102,6 +99,52 @@
                     <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                 </div>
             </div>
+        </div>
+        <div>
+            <!--ITEM TABLE-->
+            <label for="basic-url" class="form-label h3">Items</label>
+            <table class="table table-sm table-striped table-bordered" id="tablePO">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" style="width: 15%;">Category</th>
+                        <th scope="col" style="width: 25%;">Specification</th>
+                        <th scope="col" style="width: 20%;">DLC#</th>
+                        <th scope="col" style="width: 10%;">Brand</th>
+                        <th scope="col" style="width: 10%;">Subsidiary</th>
+                        <th scope="col" style="width: 10%;">Public Cost</th>
+                        <th scope="col" style="width: 10%;">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody id="item-list">
+                    <tr style="vertical-align: middle;">
+                        <td>
+                            <select class="form-select" id="inputGroupSelect01">
+                                <option selected value="0">Choose...</option>
+                                <option value="categoria">SQR CANOPY</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="selectpicker form-select " id="inputGroupSelect01" onfocus='this.size=5;'
+                                onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                <option selected value="0">Choose...</option>
+                                <option value="categoria">LEDSION Hazardous LED Floodlight, 100W 50K, Die Cast Aluminum Gray color,Temper Glass,Anti-Dust,Water-proof, PCB Heat Index 2.0, Applicate in Zone1 & Zone2 gaseous environment, and Zone21 & Zone22 dust environment
+                                </option>
+                            </select>
+                        </td>
+                        <td>LL-NCPV4-55WXYZ-aaK</td>
+                        <td>LEVIOR</td>
+                        <td class="dollars">64.13</td>
+                        <td class="euros">86.57</td>
+                        <td>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary" type="button">-</button>
+                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="0" disabled>
+                                <button class="btn btn-outline-secondary" type="button">+</button>
+                              </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 </body>
@@ -118,7 +161,7 @@
             }
         }
     }
-
+    //NOT WORKING 
     function addRowTable() {
         var itemList = document.getElementById("item-list");
         var newRow = document.createElement("tr");
@@ -195,9 +238,36 @@
             $("#requisitioner-input").val("");
             $("#input-row-count").attr("value", "0");
         }
-        else{
+        else {
             alert("No hay datos")
         }
+    }
+    function addRowPO(){
+        console.log('CREATE NEW ROW');
+        //CREATE TR
+        //FETCH EVERY CATEGORY TO FEED CATEGORY SELECT
+        //ADD SELECT FETCHCATEGORYDATA FUNCTION ON CHANGE
+        //CREATE TD WITH CATEGORY SELECT
+        //CREATE DISABLED TD WITH DISABLED SELECT FOR SPECIFICATION WITH THESE: onfocus='this.size=5;'
+                                //onblur='this.size=1;' onchange='this.size=1; this.blur();'
+        //CREATE FOUR NEW DISABLED EMPTY TD
+        /*
+            CREATE TD WITH THE FOLLOWING:
+            <div class="input-group">
+                                <button class="btn btn-outline-secondary" type="button">-</button>
+                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="0" disabled>
+                                <button class="btn btn-outline-secondary" type="button">+</button>
+                              </div>
+        */
+        //ADD RESPECTIVE CLASSES TO EVERY TD
+    }
+    function fetchCategoryData(){
+        console.log('POST CATEGORY TO RETURN THE DIFFERENT SPECIFICATIONS AND FEED'+
+        'THEM TO SPECIFICATION SELECTION, DELETES REMAINING ROWS INFO DISABLES BUTTONS')
+    }
+    function populateOffSpecification(){
+        console.log('FETCH SPECIFICATION REMAINING DATA TO POPULATE TABLE OFF THE SELECTION'+
+        'AND ENABLE QTY BUTTONS FOR ROW')
     }
 </script>
 
