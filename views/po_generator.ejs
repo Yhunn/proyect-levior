@@ -201,7 +201,7 @@
     function addRowPO(){
         $('#item-list').append(`<tr style="vertical-align: middle;">
                         <td>
-                            <select class="form-select product-category">
+                            <select class="form-select product-category" onchange='selectCategory(this);'>
                                 <option selected value="0">Choose...</option>
                             </select>
                         </td>
@@ -218,7 +218,7 @@
                         <td>
                             <div class="input-group">
                                 <button class="btn btn-outline-secondary" type="button" disabled>-</button>
-                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="0" disabled>
+                                <input type="text" class="form-control product-unit" value="0" disabled>
                                 <button class="btn btn-outline-secondary" type="button" disabled>+</button>
                               </div>
                         </td>
@@ -245,10 +245,40 @@
         }
     }
 
-    function fetchCategoryData(){
-        console.log('POST CATEGORY TO RETURN THE DIFFERENT SPECIFICATIONS AND FEED'+
-        'THEM TO SPECIFICATION SELECTION, DELETES REMAINING ROWS INFO DISABLES BUTTONS')
+    function selectCategory(selection){
+        var row = $(selection).parent().parent();
+        var specif = row.find('.product-specif');
+        resetSpecificationRoutine(row, specif);
+        if(selection.value == "0"){
+            specif.prop('disabled', true);
+        }else{
+            productsArray.forEach(product=>{
+                if(product.category == selection.value){
+                    specif.append($('<option>',{
+                    value: product.specification,
+                    text: product.specification
+                }));
+                }
+            });
+            specif.prop('disabled', false);
+        }
     }
+
+    function resetSpecificationRoutine(row, specif){
+        clearRowData(row);
+        specif.empty();
+        specif.append('<option selected value="0">Choose...</option>');
+        specif.val('0');    
+    }
+
+    function clearRowData(row){
+        row.find('.product-dlc').text('');
+        row.find('.product-brand').text('');
+        row.find('.product-subsidiary').text('');
+        row.find('.product-public-cost').text('');
+        row.find('.product-unit').val('0');
+    }
+
     function populateOffSpecification(){
         console.log('FETCH SPECIFICATION REMAINING DATA TO POPULATE TABLE OFF THE SELECTION'+
         'AND ENABLE QTY BUTTONS FOR ROW')
