@@ -135,48 +135,6 @@
             }
         }
     }
-    //NOT WORKING 
-    function addRowTable() {
-        var itemList = document.getElementById("item-list");
-        var newRow = document.createElement("tr");
-
-        var modelCell = document.createElement("td");
-        modelCell.classList.add("model");
-
-        var descCell = document.createElement("td");
-        descCell.classList.add("desc");
-
-        var qntyCell = document.createElement("td");
-        qntyCell.classList.add("qnty");
-
-        newRow.appendChild(modelCell);
-        newRow.appendChild(descCell);
-        newRow.appendChild(qntyCell);
-
-        itemList.appendChild(newRow);
-        setEditable();
-        var currentInput = document.getElementById("input-row-count");
-        var currentRows = currentInput.getAttribute("value");
-        currentRows++;
-        currentInput.setAttribute("value", currentRows);
-    }
-
-    function deleteRowTable() {
-        var currentInput = document.getElementById("input-row-count");
-        var currentRows = currentInput.getAttribute("value");
-        if (currentRows > 0) {
-            var itemList = document.getElementById("item-list");
-            itemList.removeChild(itemList.lastChild);
-
-
-            currentRows--;
-            currentInput.setAttribute("value", currentRows);
-        }
-    }
-
-    window.addEventListener("DOMContentLoaded", (event) => {
-        setEditable();
-    });
 
 </script>
 <!--JQUERY FUNCTIONS-->
@@ -219,7 +177,9 @@
     }
 
     var productsArray = [];
+    //FILLING PRODUCT DATA
     $(document).ready(function(){
+        setEditable();
         fetch('/PO_Generator/productData')
         .then(response => response.json())
         .then(data => {
