@@ -71,7 +71,7 @@
             <div class="col">
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-success" type="button" onclick=";">Create PO</button>
+                    <button class="btn btn-success" type="button" onclick="push_Product();">Create Product</button>
                     <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear Form</button>
                     <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                 </div>
@@ -79,5 +79,28 @@
         </div>
     </main>
 </body>
-
+<script>
+    function push_Product(){
+        var category = $('#category-input').val();
+        var dlc = $('#dlc-input').val();
+        var brand = $('#brand-input').val();
+        var specification = $('#specification-input').val();
+        var subsidiary = $('#subsidiary-input').val();
+        var publicCost = $('#public-cost-input').val();
+        var unit = $( "#unit-input option:selected" ).text();
+        
+        $.post("products/save", {
+            category: category,
+            dlc: dlc,
+            brand: brand,
+            specification: specification,
+            subsidiary: subsidiary,
+            publicCost: publicCost,
+            unit: unit
+        },
+        function (data, status) {
+            location.reload();
+        });
+    }
+</script>
 </html>
