@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+
 <body>
     <header>
         <nav class="navbar bg-light">
@@ -25,7 +27,57 @@
         </nav>
     </header>
     <main style="margin-left: 15px;margin-right: 15px;">
-        
+        <p class="h1">New product Form</p>
+        <div class="row align-items-start">
+            <div class="col-sm-8">
+                <div class="input-group mb-3">
+                    <span class="input-group-text"style="width: 150px;">Category</span>
+                    <input type="text" class="form-control" placeholder="Category" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="category-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="width: 150px;">DLC</span>
+                    <input type="text" class="form-control" placeholder="DLC OR ES MODEL NO." aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="dlc-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"style="width: 150px;">Brand</span>
+                    <input type="text" class="form-control" placeholder="Brand" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="brand-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="width: 150px;">Specification</span>
+                    <textarea class="form-control" aria-label="With textarea" id="specification-input"></textarea>
+                  </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"style="width: 150px;">Subsidiary</span>
+                    <input type="number" class="form-control" placeholder="Subsidiary" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="subsidiary-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"style="width: 150px;">Public Cost</span>
+                    <input type="number" class="form-control" placeholder="Public Cost" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="public-cost-input">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="unit-input" style="width: 150px;">Measurement Unit</label>
+                    <select class="form-select" id="unit-input">
+                      <option selected value="0">Choose...</option>
+                      <option value="DOLLAR">DOLLAR</option>
+                      <option value="EURO">EURO</option>
+                    </select>
+                  </div>
+            </div>
+            <div class="col">
+                <p class="h4">Actions</p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success" type="button" onclick=";">Create PO</button>
+                    <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear Form</button>
+                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                </div>
+            </div>
+        </div>
     </main>
 </body>
+
 </html>
