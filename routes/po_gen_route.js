@@ -48,7 +48,7 @@ router.get('/productData', (req,res)=>{
     });
 });
 
-router.post('/save', (req, res) => {
+router.post('/save', checkPermissionsForPOGenerator, (req, res) => {
     let { pName,
         shipTo,
         requis,

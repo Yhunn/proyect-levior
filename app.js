@@ -49,8 +49,11 @@ app.use("/users", usersRoute);
 const poGenRoute = require("./routes/po_gen_route");
 app.use("/PO_Generator", poGenRoute);
 
-const poQueryRoute = require("./routes/po_supply_route");
-app.use("/PO_Supply", poQueryRoute);
+const poSupplyRoute = require("./routes/po_supply_route");
+app.use("/PO_Supply", poSupplyRoute);
+
+const productsRoute = require("./routes/products_route");
+app.use("/products", productsRoute);
 
 //MIDDLEWARE FUNCTIONS
 function checkAuthenticated(req, res, next){
