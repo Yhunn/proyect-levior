@@ -21,6 +21,7 @@ router.get('/', checkPermissionsForPOSupply,(req,res)=>{
 router.post('/populate', (req,res)=>{
     let { dataSearch } = req.body;
     dataSearch = dataSearch.trim() + '%';
+    console.log("asdasd");
     try {
         db.query(`SELECT * FROM $1:name WHERE $2:name like '$3:raw' ORDER BY id ASC`,[
             "po_toDeliver_provisional", "identifierOrder", dataSearch

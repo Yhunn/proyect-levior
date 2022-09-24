@@ -2,65 +2,47 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <%- include('partials/head.ejs') %> 
+    <title>Manage Products | Admin Operations</title>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <img src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24"
-                        class="d-inline-block align-text-top">
-                    Levior Energy
-                </a>
-            </div>
-        </nav>
-    </header>
+    <%- include('partials/header.ejs') %> 
     <main style="margin-left: 15px;margin-right: 15px;">
         <p class="h1">New product Form</p>
         <div class="row align-items-start">
             <div class="col-sm-8">
                 <div class="input-group mb-3">
-                    <span class="input-group-text"style="width: 150px;">Category</span>
+                    <span class="input-group-text">Category</span>
                     <input type="text" class="form-control" placeholder="Category" aria-label="placeholder"
                         aria-describedby="basic-addon1" id="category-input">
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" style="width: 150px;">DLC</span>
+                    <span class="input-group-text" >DLC</span>
                     <input type="text" class="form-control" placeholder="DLC OR ES MODEL NO." aria-label="placeholder"
                         aria-describedby="basic-addon1" id="dlc-input">
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text"style="width: 150px;">Brand</span>
+                    <span class="input-group-text">Brand</span>
                     <input type="text" class="form-control" placeholder="Brand" aria-label="placeholder"
                         aria-describedby="basic-addon1" id="brand-input">
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" style="width: 150px;">Specification</span>
+                    <span class="input-group-text" >Specification</span>
                     <textarea class="form-control" aria-label="With textarea" id="specification-input"></textarea>
                   </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text"style="width: 150px;">Subsidiary</span>
+                    <span class="input-group-text">Subsidiary</span>
                     <input type="number" class="form-control" placeholder="Subsidiary" aria-label="placeholder"
                         aria-describedby="basic-addon1" id="subsidiary-input">
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text"style="width: 150px;">Public Cost</span>
+                    <span class="input-group-text">Public Cost</span>
                     <input type="number" class="form-control" placeholder="Public Cost" aria-label="placeholder"
                         aria-describedby="basic-addon1" id="public-cost-input">
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="unit-input" style="width: 150px;">Measurement Unit</label>
+                    <label class="input-group-text" for="unit-input" >Measurement Unit</label>
                     <select class="form-select" id="unit-input">
                       <option selected value="0">Choose...</option>
                       <option value="DOLLAR">DOLLAR</option>
@@ -79,28 +61,5 @@
         </div>
     </main>
 </body>
-<script>
-    function push_Product(){
-        var category = $('#category-input').val();
-        var dlc = $('#dlc-input').val();
-        var brand = $('#brand-input').val();
-        var specification = $('#specification-input').val();
-        var subsidiary = $('#subsidiary-input').val();
-        var publicCost = $('#public-cost-input').val();
-        var unit = $( "#unit-input option:selected" ).text();
-        
-        $.post("products/save", {
-            category: category,
-            dlc: dlc,
-            brand: brand,
-            specification: specification,
-            subsidiary: subsidiary,
-            publicCost: publicCost,
-            unit: unit
-        },
-        function (data, status) {
-            location.reload();
-        });
-    }
-</script>
+<script type="text/javascript" src="scripts/products_scripts.js"></script>
 </html>
