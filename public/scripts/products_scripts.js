@@ -43,6 +43,40 @@ $(document).ready(function(){
 });
 
 function editRow(button){
-    
+    var row = $(button).parent().parent();
+    var id = row.find('.id').text();
+    var category = row.find('.category').text();
+    var specification = row.find('.specification').text();
+    var dlc = row.find('.dlc').text();
+    var brand = row.find('.brand').text();
+    var subsidiary = row.find('.subsidiary').text();
+    var publicCost = row.find('.public-cost').text();
+    var unit = row.find('.unit').text();
+    $('#id-input-modal').val(id);
+    $('#category-input-modal').val(category);
+    $('#dlc-input-modal').val(dlc);
+    $('#brand-input-modal').val(brand);
+    $('#specification-input-modal').val(specification);
+    $('#subsidiary-input-modal').val(subsidiary);
+    $('#public-cost-input-modal').val(publicCost);
+    $( "#unit-input-modal").val(unit);
     $('#pop-up-content').modal('toggle');
+}
+
+function pushChanges(){
+    var id = $('#id-input-modal').val();
+    var category = $('#id-input-modal').val();
+    var category = $('#category-input-modal').val();
+    var dlc = $('#dlc-input-modal').val();
+    var brand = $('#brand-input-modal').val();
+    var specification = $('#specification-input-modal').val();
+    var subsidiary = $('#subsidiary-input-modal').val();
+    var publicCost = $('#public-cost-input-modal').val();
+    var unit = $( "#unit-input-modal option:selected" ).text();
+    //POST WITH PRODUCT DATA TO SAVE CHANGES TO DATABASE
+}
+
+function deleteProduct(){
+    var id = $('#id-input-modal').val();
+    //POST TO DELETE REQUEST TO DELETE ROW IN DATABASE
 }
