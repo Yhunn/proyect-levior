@@ -18,7 +18,7 @@ router.get('/', checkPermissionsForPOSupply,(req,res)=>{
     
 });
 
-router.post('/populate', (req,res)=>{
+router.post('/populate', checkPermissionsForPOSupply, (req,res)=>{
     let { dataSearch } = req.body;
     dataSearch = dataSearch.trim() + '%';
     console.log("asdasd");
@@ -33,7 +33,7 @@ router.post('/populate', (req,res)=>{
     }
 });
 
-router.post('/save',(req,res)=>{
+router.post('/save', checkPermissionsForPOSupply, (req,res)=>{
     console.log(req.body);
 });
 

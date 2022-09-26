@@ -9,6 +9,7 @@
 <body>
     <%- include('partials/header.ejs') %> 
     <main style="margin-left: 15px;margin-right: 15px;">
+        <!--NEW PRODUCT FORM-->
         <p class="h1">New product Form</p>
         <div class="row align-items-start">
             <div class="col-sm-8">
@@ -50,6 +51,7 @@
                     </select>
                   </div>
             </div>
+            <!--BUTTONS COLUMN-->
             <div class="col">
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
@@ -59,6 +61,25 @@
                 </div>
             </div>
         </div>
+        <!--CURRENT PRODUCTS TABLE-->
+        <p class="h1">Current Products</p>
+        <table class="table table-sm table-striped table-bordered" id="table-products" style="margin-bottom: 30px;">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th scope="col">Category</th>
+                    <th scope="col" style="width: 20%;">Specification</th>
+                    <th scope="col">DLC#</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Subsidiary</th>
+                    <th scope="col">Public Cost</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                
+            </tbody>
+        </table>
     </main>
 </body>
 <script type="text/javascript" src="scripts/products_scripts.js"></script>

@@ -6,7 +6,17 @@ router.get('/', checkPermissionsForProducts, (req, res) => {
     res.render('products.ejs');
 });
 
-router.post('/save', (req, res) => {
+router.get('/getData', checkPermissionsForProducts, (req, res) => {
+    db.any('SELECT * FROM products ORDER BY "id" ASC')
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
+router.post('/save', checkPermissionsForProducts, (req, res) => {
     let { category, dlc, brand, specification, subsidiary, publicCost, unit } = req.body;
     try {
         db.any(`INSERT INTO products

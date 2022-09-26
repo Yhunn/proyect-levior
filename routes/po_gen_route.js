@@ -38,7 +38,7 @@ router.get('/', checkPermissionsForPOGenerator, (req, res) => {
     }
 });
 
-router.get('/productData', (req,res)=>{
+router.get('/productData', checkPermissionsForPOGenerator, (req,res)=>{
     db.any("SELECT * FROM products")
     .then(rows => {
         res.json(rows);
