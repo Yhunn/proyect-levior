@@ -28,6 +28,7 @@ $(document).ready(function(){
     .then(data => {
         data.forEach(row =>{
             $('#product-list').append(`<tr style="vertical-align: middle;">
+                                <td class="id">`+row.id+`</td>
                                 <td class="category">`+row.category+`</td>
                                 <td class="specification">`+row.specification+`</td>
                                 <td class="dlc">`+row.dlc_or_es_model_no+`</td>
@@ -42,5 +43,6 @@ $(document).ready(function(){
 });
 
 function editRow(button){
-    console.log('EDIT STARTED');
+    
+    $('#pop-up-content').modal('toggle');
 }
