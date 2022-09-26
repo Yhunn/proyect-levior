@@ -33,6 +33,24 @@ router.post('/save', checkPermissionsForProducts, (req, res) => {
     }
 });
 
+router.post('/change', checkPermissionsForProducts, (req,res) => {
+    let { id, category, dlc, brand, specification, subsidiary, publicCost, unit } = req.body;
+    try {
+        db.any(`UPDATE products SET category=$1, dlc_or_es_model_no=$2,
+        brand=$3, specification=$4, subsidiary=$5:raw, public_cost=$6:raw, measurement_unit=$7
+        WHERE id = $8`,
+            [category, dlc, brand, specification, subsidiary, publicCost, unit, id])
+            .then(response => {
+                res.redirect('back');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } catch (e) {
+        console.warn("Unable to insert into database");
+    }
+});
+
 function checkPermissionsForProducts(req, res, next) {
     if (req.isAuthenticated()) {
         const allowedPermisionsForPOSupply = ['*'];

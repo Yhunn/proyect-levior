@@ -65,7 +65,6 @@ function editRow(button){
 
 function pushChanges(){
     var id = $('#id-input-modal').val();
-    var category = $('#id-input-modal').val();
     var category = $('#category-input-modal').val();
     var dlc = $('#dlc-input-modal').val();
     var brand = $('#brand-input-modal').val();
@@ -73,7 +72,20 @@ function pushChanges(){
     var subsidiary = $('#subsidiary-input-modal').val();
     var publicCost = $('#public-cost-input-modal').val();
     var unit = $( "#unit-input-modal option:selected" ).text();
-    //POST WITH PRODUCT DATA TO SAVE CHANGES TO DATABASE
+    
+    $.post("products/change", {
+        id: id,
+        category: category,
+        dlc: dlc,
+        brand: brand,
+        specification: specification,
+        subsidiary: subsidiary,
+        publicCost: publicCost,
+        unit: unit
+    },
+    function (data, status) {
+        location.reload();
+    });
 }
 
 function deleteProduct(){
