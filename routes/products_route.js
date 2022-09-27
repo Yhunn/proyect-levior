@@ -51,6 +51,22 @@ router.post('/change', checkPermissionsForProducts, (req,res) => {
     }
 });
 
+router.delete('/delete', checkPermissionsForProducts, (req,res) =>{
+    let {id} = req.body;
+    try {
+        db.any(`DELETE FROM products WHERE id = $1`,
+            [id])
+            .then(response => {
+                res.sendStatus(200);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } catch (e) {
+        console.warn("Unable to insert into database");
+    }
+});
+
 function checkPermissionsForProducts(req, res, next) {
     if (req.isAuthenticated()) {
         const allowedPermisionsForPOSupply = ['*'];

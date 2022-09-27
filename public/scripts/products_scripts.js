@@ -90,5 +90,14 @@ function pushChanges(){
 
 function deleteProduct(){
     var id = $('#id-input-modal').val();
-    //POST TO DELETE REQUEST TO DELETE ROW IN DATABASE
+    $.ajax({
+        url: '/products/delete',
+        type: 'DELETE',
+        data:{
+            "id": id
+        },
+        success: function(data, status){
+            location.reload();
+        }
+    });
 }
