@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const checkPermissions = require('./check_authentication');
+router.use(checkPermissions("products"));
 
-router.get('/', checkPermissionsForProducts, (req, res) => {
+router.get('/', (req, res) => {
     res.render('products.ejs');
 });
 
-router.get('/getData', checkPermissionsForProducts, (req, res) => {
+router.get('/getData', (req, res) => {
     db.any('SELECT * FROM products ORDER BY "id" ASC')
     .then(rows => {
         res.json(rows);
@@ -16,7 +18,7 @@ router.get('/getData', checkPermissionsForProducts, (req, res) => {
     });
 });
 
-router.post('/save', checkPermissionsForProducts, (req, res) => {
+router.post('/save', (req, res) => {
     let { category, dlc, brand, specification, subsidiary, publicCost, unit } = req.body;
     try {
         db.any(`INSERT INTO products
@@ -33,7 +35,7 @@ router.post('/save', checkPermissionsForProducts, (req, res) => {
     }
 });
 
-router.post('/change', checkPermissionsForProducts, (req,res) => {
+router.post('/change', (req,res) => {
     let { id, category, dlc, brand, specification, subsidiary, publicCost, unit } = req.body;
     try {
         db.any(`UPDATE products SET category=$1, dlc_or_es_model_no=$2,
@@ -51,7 +53,7 @@ router.post('/change', checkPermissionsForProducts, (req,res) => {
     }
 });
 
-router.delete('/delete', checkPermissionsForProducts, (req,res) =>{
+router.delete('/delete', (req,res) =>{
     let {id} = req.body;
     try {
         db.any(`DELETE FROM products WHERE id = $1`,
@@ -66,17 +68,5 @@ router.delete('/delete', checkPermissionsForProducts, (req,res) =>{
         console.warn("Unable to insert into database");
     }
 });
-
-function checkPermissionsForProducts(req, res, next) {
-    if (req.isAuthenticated()) {
-        const allowedPermisionsForPOSupply = ['*'];
-        var userPermissions = String(req.user.role).split(',');
-
-        if (allowedPermisionsForPOSupply.some(permision => userPermissions.includes(permision))) {
-            return next();
-        }
-    }
-    res.redirect('/');
-}
 
 module.exports = router;

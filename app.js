@@ -42,6 +42,7 @@ app.delete('/logout', function(req, res, next) {
     });
   });
 
+//APP ROUTES
 const loginRoute = require("./routes/login_user_route");
 app.use("/login", loginRoute);
 

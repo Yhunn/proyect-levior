@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const checkPermissions = require('./check_authentication');
+router.use(checkPermissions("po_generator"));
 
-router.get('/', checkPermissionsForPOGenerator, (req, res) => {
+router.get('/', (req, res) => {
     const idUserOffice = req.user.office;
     try {
         //LOAD CURRENT OFFICE OFF USER DATA
@@ -38,7 +40,7 @@ router.get('/', checkPermissionsForPOGenerator, (req, res) => {
     }
 });
 
-router.get('/productData', checkPermissionsForPOGenerator, (req,res)=>{
+router.get('/productData', (req,res)=>{
     db.any("SELECT * FROM products")
     .then(rows => {
         res.json(rows);
@@ -48,7 +50,7 @@ router.get('/productData', checkPermissionsForPOGenerator, (req,res)=>{
     });
 });
 
-router.post('/save', checkPermissionsForPOGenerator, (req, res) => {
+router.post('/save', (req, res) => {
     let { pName,
         shipTo,
         requis,
@@ -68,18 +70,5 @@ router.post('/save', checkPermissionsForPOGenerator, (req, res) => {
         console.warn("Unable to insert into database");
     }
 });
-
-//MIDDLEWARE FUNCTIONS
-function checkPermissionsForPOGenerator(req, res, next) {
-    if(req.isAuthenticated()){
-        const allowedPermisionsForPOGenerator = ['*','1'];
-        var userPermissions = String(req.user.role).split(',');
-
-        if(allowedPermisionsForPOGenerator.some(permision=> userPermissions.includes(permision))){
-            return next();
-        }
-    }
-    res.redirect('/');
-}
 
 module.exports = router;
