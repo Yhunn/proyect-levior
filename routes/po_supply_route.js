@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.get('/', checkPermissions,(req,res)=>{
+router.get('/', checkPermissionsForPOSupply,(req,res)=>{
     var poToDeliverList = [];
     try {
         db.query(`SELECT MIN("id") AS "id", "identifierOrder" FROM "po_toDeliver_provisional" GROUP BY "identifierOrder" ORDER BY "id" ASC`)
@@ -18,9 +18,10 @@ router.get('/', checkPermissions,(req,res)=>{
     
 });
 
-router.post('/populate', (req,res)=>{
+router.post('/populate', checkPermissionsForPOSupply, (req,res)=>{
     let { dataSearch } = req.body;
     dataSearch = dataSearch.trim() + '%';
+    console.log("asdasd");
     try {
         db.query(`SELECT * FROM $1:name WHERE $2:name like '$3:raw' ORDER BY id ASC`,[
             "po_toDeliver_provisional", "identifierOrder", dataSearch
@@ -32,12 +33,12 @@ router.post('/populate', (req,res)=>{
     }
 });
 
-router.post('/save',(req,res)=>{
+router.post('/save', checkPermissionsForPOSupply, (req,res)=>{
     console.log(req.body);
 });
 
 //MIDDLEWARE FUNCTIONS
-function checkPermissions(req, res, next) {
+function checkPermissionsForPOSupply(req, res, next) {
     if(req.isAuthenticated()){
         const allowedPermisionsForPOSupply = ['*','2'];
         var userPermissions = String(req.user.role).split(',');

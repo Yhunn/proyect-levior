@@ -2,96 +2,70 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PO Generator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <%- include('partials/head.ejs') %> 
+    <title>Purchase Order Generator Tool</title>
+    <style>
+        select {
+            width: 92px;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    <img src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24"
-                        class="d-inline-block align-text-top">
-                    Levior Energy
-                </a>
-            </div>
-        </nav>
-    </header>
-    <main style="margin-left: 15px;margin-right: 15px;">
+    <%- include('partials/header.ejs') %> 
+    <main>
         <p class="h3">Purchase Order Generator</p>
+        <!--
+        <li>
+            <%= //officeData.officeName %> 
+        </li>
+        -->
         <div class="row align-items-start">
-            <div class="col-sm-9">
-                <div class="row align-items-start">
-                    <div class="col-sm-9">
-                        <!--FORM PO GENERATOR-->
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Project Name</span>
-                            <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="project-name-input">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Ship TO</span>
-                            <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="ship-to-input">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" style="width: 135px;">Requisitioner</span>
-                            <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="requisitioner-input">
-                        </div>
-                        <!--ITEM TABLE-->
-                        <label for="basic-url" class="form-label h3">Items</label>
-                        <table class="table table-striped" id="tablePO">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Model</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody class="editable-body" id="item-list">
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--MIDDLE COLUMN-->
-                    <div class="col-3">
-                        <p class="h6">PO Data</p>
-                        <table class="table table-striped">
-                            <tbody class="editable-body">
-                                <tr>
-                                    <th scope="row">Input Date</th>
-                                    <td>03/09/2022</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Purchase Order No.</th>
-                                    <td id="customID">ELP-2022-1</td>
-                                </tr>
-                        </table>
-                        <!--CURRENT ROW INPUT-->
-                        <p class="h6">Rows</p>
-                        <div class="input-group mb-3">
-                            <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
-                                onclick="deleteRowTable()">-</button>
-                            <input type="text" class="form-control" aria-label="Current amount of item rows" disabled
-                                value="0" id="input-row-count">
-                            <button class="btn btn-outline-secondary" type="button" id="btn-row-add"
-                                onclick="addRowTable()">+</button>
-                        </div>
-                    </div>
+            <!-- COLUMN FORM AND TABLE-->
+            <div class="col-sm-8">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Project Name</span>
+                    <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="project-name-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Ship TO</span>
+                    <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="ship-to-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Requisitioner</span>
+                    <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="requisitioner-input">
                 </div>
             </div>
-            <!--RIGHT BUTTON SET-->
-            <div class="col-3">
+            <!-- COLUMN DATA AND ROWS-->
+            <div class="col">
+                <p class="h6">PO Data</p>
+                <table class="table table-striped">
+                    <tbody class="editable-body">
+                        <tr>
+                            <th scope="row">Input Date</th>
+                            <td>03/09/2022</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Purchase Order No.</th>
+                            <td id="customID">ELP-2022-1</td>
+                        </tr>
+                </table>
+                <!--CURRENT ROW INPUT-->
+                <p class="h6">Rows</p>
+                <div class="input-group mb-3">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
+                        onclick="removeRowPO()">-</button>
+                    <input type="text" class="form-control" aria-label="Current amount of item rows" disabled value="0"
+                        id="input-row-count">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-row-add" onclick="addRowPO()">+</button>
+                </div>
+            </div>
+            <!-- COLUMN BUTTONS-->
+            <div class="col">
                 <p class="h4">Actions</p>
                 <div class="d-grid gap-2">
                     <button class="btn btn-success" type="button" onclick="push_PO();">Create PO</button>
@@ -100,102 +74,30 @@
                 </div>
             </div>
         </div>
+        <div>
+            <!--ITEM TABLE-->
+            <label for="basic-url" class="form-label h3">Items</label>
+            <table class="table table-sm table-striped table-bordered" id="tablePO">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" style="width: 15%;">Category</th>
+                        <th scope="col" style="width: 25%;">Specification</th>
+                        <th scope="col" style="width: 20%;">DLC#</th>
+                        <th scope="col" style="width: 10%;">Brand</th>
+                        <th scope="col" style="width: 10%;">Subsidiary</th>
+                        <th scope="col" style="width: 10%;">Public Cost</th>
+                        <th scope="col" style="width: 10%;">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody id="item-list">
+                    
+                </tbody>
+            </table>
+        </div>
     </main>
 </body>
 
 <!--JAVASCRIPT FUNCTIONS-->
-<script>
-    function setEditable() {
-        var tbody = document.getElementsByClassName('editable-body');
-
-        for (var i = 0; i < tbody.length; i++) {
-            var tds = tbody[i].getElementsByTagName("td");
-            for (var n = 0; n < tds.length; n++) {
-                tds[n].setAttribute('contenteditable', 'true');
-            }
-        }
-    }
-
-    function addRowTable() {
-        var itemList = document.getElementById("item-list");
-        var newRow = document.createElement("tr");
-
-        var modelCell = document.createElement("td");
-        modelCell.classList.add("model");
-
-        var descCell = document.createElement("td");
-        descCell.classList.add("desc");
-
-        var qntyCell = document.createElement("td");
-        qntyCell.classList.add("qnty");
-
-        newRow.appendChild(modelCell);
-        newRow.appendChild(descCell);
-        newRow.appendChild(qntyCell);
-
-        itemList.appendChild(newRow);
-        setEditable();
-        var currentInput = document.getElementById("input-row-count");
-        var currentRows = currentInput.getAttribute("value");
-        currentRows++;
-        currentInput.setAttribute("value", currentRows);
-    }
-
-    function deleteRowTable() {
-        var currentInput = document.getElementById("input-row-count");
-        var currentRows = currentInput.getAttribute("value");
-        if (currentRows > 0) {
-            var itemList = document.getElementById("item-list");
-            itemList.removeChild(itemList.lastChild);
-
-
-            currentRows--;
-            currentInput.setAttribute("value", currentRows);
-        }
-    }
-
-    window.addEventListener("DOMContentLoaded", (event) => {
-        setEditable();
-    });
-
-</script>
-<!--JQUERY FUNCTIONS-->
-<script>
-    function push_PO() {
-        var rowCount = $("#input-row-count").val();
-        if (rowCount > 0) {
-            $('#tablePO > tbody > tr').each(function () {
-                var pName = $("#project-name-input").val();
-                var shipTo = $("#ship-to-input").val();
-                var requis = $("#requisitioner-input").val();
-
-                var model = $(this).find(".model").text();
-                var desc = $(this).find(".desc").text();
-                var qnty = $(this).find(".qnty").text();
-
-                var poID = $("#customID").html();
-
-                $.post("PO_Generator/save", {
-                    pName: pName,
-                    shipTo: shipTo,
-                    requis: requis,
-                    model: model,
-                    desc: desc,
-                    qnty: qnty,
-                    poID: poID
-                },
-                    function (data, status) { });
-                $(this).remove();
-            });
-            $("#project-name-input").val("");
-            $("#ship-to-input").val("");
-            $("#requisitioner-input").val("");
-            $("#input-row-count").attr("value", "0");
-        }
-        else{
-            alert("No hay datos")
-        }
-    }
-</script>
-
+<script type="text/javascript" src="scripts/common_scripts.js"></script>
+<script type="text/javascript" src="scripts/po_generator_scripts.js"></script>
 </html>

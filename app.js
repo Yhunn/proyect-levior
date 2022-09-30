@@ -7,6 +7,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 const passport = require('passport');
 const methodOverride = require('method-override');
+const path = require('path');
 
 //SERVER SIDE SET UP
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(express.static(path.join(__dirname,"public")));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -30,7 +32,7 @@ initializePassport(passport);
 //FEEDING SERVER THE ROUTES TO THE VIEWS
 app.get('/', checkAuthenticated, (req,res) => {
     var permissions = String(req.user.role).split(',');
-    res.render("index.ejs",{ views: permissions, username: req.user.name });
+    res.render("index.ejs",{ views: permissions, username: req.user.name, lastname: req.user.lastName });
 });
 
 app.delete('/logout', function(req, res, next) {
@@ -49,8 +51,11 @@ app.use("/users", usersRoute);
 const poGenRoute = require("./routes/po_gen_route");
 app.use("/PO_Generator", poGenRoute);
 
-const poQueryRoute = require("./routes/po_supply_route");
-app.use("/PO_Supply", poQueryRoute);
+const poSupplyRoute = require("./routes/po_supply_route");
+app.use("/PO_Supply", poSupplyRoute);
+
+const productsRoute = require("./routes/products_route");
+app.use("/products", productsRoute);
 
 //MIDDLEWARE FUNCTIONS
 function checkAuthenticated(req, res, next){

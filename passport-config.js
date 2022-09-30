@@ -10,6 +10,7 @@ function initialize(passport) {
                     users.push({
                         id: row.id,
                         name: row.name,
+                        lastName: row.last_name,
                         role: row.role,
                         office: row.office,
                         email: row.email,
