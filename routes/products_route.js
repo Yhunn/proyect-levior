@@ -22,7 +22,7 @@ router.post('/save', (req, res) => {
     let { category, dlc, brand, specification, subsidiary, publicCost, unit } = req.body;
     try {
         db.any(`INSERT INTO products
-            VALUES(DEFAULT, $1, $2, $3, $4, $5:raw, $6:raw, $7)`,
+            VALUES(DEFAULT, $1, $2, $3, $4, $5:raw, $6:raw, $7, true)`,
             [category, dlc, brand, specification, subsidiary, publicCost, unit])
             .then(response => {
                 res.redirect('back');
@@ -53,19 +53,19 @@ router.post('/change', (req,res) => {
     }
 });
 
-router.delete('/delete', (req,res) =>{
-    let {id} = req.body;
+router.post('/changeStatus', (req,res) =>{
+    let { id, status } = req.body;
     try {
-        db.any(`DELETE FROM products WHERE id = $1`,
-            [id])
+        db.any(`UPDATE products SET active_product=$2 WHERE id=$1 `,
+            [id, status])
             .then(response => {
-                res.sendStatus(200);
+                res.redirect('back');
             })
             .catch(error => {
                 console.log(error);
             });
     } catch (e) {
-        console.warn("Unable to insert into database");
+        console.warn("Unable to update database");
     }
 });
 

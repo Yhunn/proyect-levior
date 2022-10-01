@@ -75,6 +75,7 @@
                         <th scope="col">Subsidiary</th>
                         <th scope="col">Public Cost</th>
                         <th scope="col">Unit</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Edit</th>
                     </tr>
                 </thead>
@@ -136,7 +137,10 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger me-auto" data-dismiss="modal" onclick="deleteProduct()">DELETE PRODUCT</button>
+                            <div class="form-check form-switch me-auto">
+                                <input class="form-check-input" type="checkbox" role="switch" id="activeSwitch" onchange="checkActivation();" checked/>
+                                <label class="form-check-label">Active Product</label>
+                              </div>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="pushChanges()">Save Changes</button>
                         </div>

@@ -27,6 +27,7 @@ $(document).ready(function(){
     .then(response => response.json())
     .then(data => {
         data.forEach(row =>{
+            var status = row.active_product == true ? "Active" : "Inactive";
             $('#product-list').append(`<tr style="vertical-align: middle;">
                                 <td class="id">`+row.id+`</td>
                                 <td class="category">`+row.category+`</td>
@@ -36,6 +37,7 @@ $(document).ready(function(){
                                 <td class="subsidiary">`+row.subsidiary+`</td>
                                 <td class="public-cost">`+row.public_cost+`</td>
                                 <td class="unit">`+row.measurement_unit+`</td>
+                                <td class="status">`+status+`</td>
                                 <td class="edit text-center"><button class="btn" onclick="editRow(this)"><i class="fa fa-pencil-square-o"></i></button></td>
                             </tr>`);
         });
@@ -52,6 +54,7 @@ function editRow(button){
     var subsidiary = row.find('.subsidiary').text();
     var publicCost = row.find('.public-cost').text();
     var unit = row.find('.unit').text();
+    var status = row.find('.status').text();
     $('#id-input-modal').val(id);
     $('#category-input-modal').val(category);
     $('#dlc-input-modal').val(dlc);
@@ -61,6 +64,9 @@ function editRow(button){
     $('#public-cost-input-modal').val(publicCost);
     $( "#unit-input-modal").val(unit);
     $('#pop-up-content').modal('toggle');
+    if(status == "Inactive"){
+        $("#activeSwitch").prop('checked', false);
+    }
 }
 
 function pushChanges(){
@@ -88,16 +94,15 @@ function pushChanges(){
     });
 }
 
-function deleteProduct(){
+function checkActivation(){
     var id = $('#id-input-modal').val();
-    $.ajax({
-        url: '/products/delete',
-        type: 'DELETE',
-        data:{
-            "id": id
-        },
-        success: function(data, status){
-            location.reload();
-        }
+    var ischecked= $("#activeSwitch").is(':checked');
+    $.post("products/changeStatus", {
+        id: id,
+        status: ischecked
+    },
+    function (data, status) {
+        location.reload();
     });
+    
 }

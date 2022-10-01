@@ -41,7 +41,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/productData', (req,res)=>{
-    db.any("SELECT * FROM products")
+    db.any("SELECT * FROM products WHERE active_product=true ORDER BY id ASC")
     .then(rows => {
         res.json(rows);
     })
