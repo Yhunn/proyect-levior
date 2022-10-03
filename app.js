@@ -58,6 +58,9 @@ app.use("/PO_Supply", poSupplyRoute);
 const productsRoute = require("./routes/products_route");
 app.use("/products", productsRoute);
 
+const customersRoute = require("./routes/customers_route");
+app.use("/customers", customersRoute);
+
 //MIDDLEWARE FUNCTIONS
 function checkAuthenticated(req, res, next){
     if(req.isAuthenticated()){

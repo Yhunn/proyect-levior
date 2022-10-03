@@ -44,8 +44,9 @@
         <p class="h3">Available Tools</p>
         <%
             const permissionsForProductsView = ['*'];
-            
-            const permissionsForDataManagement = [permissionsForProductsView].flat();
+            const permissionsForCustomerView = ['*'];
+
+            const permissionsForDataManagement = [permissionsForProductsView, permissionsForCustomerView].flat();
 
         %>
         <% if (permissionsForDataManagement.some(r=> views.includes(r))) { %>
@@ -60,6 +61,20 @@
                                 <h5 class="card-title">Manage Products</h5>
                                 <p class="card-text">Admin Operations. Administrate the product databases content.</p>
                                 <a href="/products" class="btn btn-success">Open Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- CHECK PERMISSIONS FOR CUSTOMER -->
+                <% if (permissionsForCustomerView.some(r=> views.includes(r))) { %>
+                    <div class="col-sm-4 mt-3 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">Data Management</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Manage Customer</h5>
+                                <p class="card-text">Admin Operations. Administrate the customer databases content.</p>
+                                <a href="/customers" class="btn btn-success">Open Tool</a>
                             </div>
                         </div>
                     </div>

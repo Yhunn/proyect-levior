@@ -8,147 +8,147 @@
 
 <body>
     <%- include('partials/header.ejs') %>
-        <main style="margin-left: 15px;margin-right: 15px;">
-            <!--NEW PRODUCT FORM-->
-            <p class="h1">New product Form</p>
-            <div class="row align-items-start">
-                <div class="col-sm-8">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Category</span>
-                        <input type="text" class="form-control" placeholder="Category" aria-label="placeholder"
-                            aria-describedby="basic-addon1" id="category-input">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">DLC</span>
-                        <input type="text" class="form-control" placeholder="DLC OR ES MODEL NO."
-                            aria-label="placeholder" aria-describedby="basic-addon1" id="dlc-input">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Brand</span>
-                        <input type="text" class="form-control" placeholder="Brand" aria-label="placeholder"
-                            aria-describedby="basic-addon1" id="brand-input">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Specification</span>
-                        <textarea class="form-control" aria-label="With textarea" id="specification-input"></textarea>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Subsidiary</span>
-                        <input type="number" class="form-control" placeholder="Subsidiary" aria-label="placeholder"
-                            aria-describedby="basic-addon1" id="subsidiary-input">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Public Cost</span>
-                        <input type="number" class="form-control" placeholder="Public Cost" aria-label="placeholder"
-                            aria-describedby="basic-addon1" id="public-cost-input">
-                    </div>
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="unit-input">Measurement Unit</label>
-                        <select class="form-select" id="unit-input">
-                            <option selected value="0">Choose...</option>
-                            <option value="DOLLAR">DOLLAR</option>
-                            <option value="EURO">EURO</option>
-                        </select>
-                    </div>
+    <main>
+        <!--NEW PRODUCT FORM-->
+        <p class="h1">New product Form</p>
+        <div class="row align-items-start">
+            <div class="col-sm-8">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Category</span>
+                    <input type="text" class="form-control" placeholder="Category" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="category-input">
                 </div>
-                <!--BUTTONS COLUMN-->
-                <div class="col">
-                    <p class="h4">Actions</p>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-success" type="button" onclick="push_Product();">Create Product</button>
-                        <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear
-                            Form</button>
-                        <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
-                    </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">DLC</span>
+                    <input type="text" class="form-control" placeholder="DLC OR ES MODEL NO."
+                        aria-label="placeholder" aria-describedby="basic-addon1" id="dlc-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Brand</span>
+                    <input type="text" class="form-control" placeholder="Brand" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="brand-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Specification</span>
+                    <textarea class="form-control" aria-label="With textarea" id="specification-input"></textarea>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Subsidiary</span>
+                    <input type="number" class="form-control" placeholder="Subsidiary" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="subsidiary-input">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Public Cost</span>
+                    <input type="number" class="form-control" placeholder="Public Cost" aria-label="placeholder"
+                        aria-describedby="basic-addon1" id="public-cost-input">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="unit-input">Measurement Unit</label>
+                    <select class="form-select" id="unit-input">
+                        <option selected value="0">Choose...</option>
+                        <option value="DOLLAR">DOLLAR</option>
+                        <option value="EURO">EURO</option>
+                    </select>
                 </div>
             </div>
-            <!--CURRENT PRODUCTS TABLE-->
-            <p class="h1">Current Products</p>
-            <table class="table table-sm table-striped table-bordered" id="table-products" style="margin-bottom: 30px;">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <th scope="col">ID</th>
-                        <th scope="col">Category</th>
-                        <th scope="col" style="width: 20%;">Specification</th>
-                        <th scope="col">DLC#</th>
-                        <th scope="col">Brand</th>
-                        <th scope="col">Subsidiary</th>
-                        <th scope="col">Public Cost</th>
-                        <th scope="col">Unit</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Edit</th>
-                    </tr>
-                </thead>
-                <tbody id="product-list">
+            <!--BUTTONS COLUMN-->
+            <div class="col">
+                <p class="h4">Actions</p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success" type="button" onclick="push_Product();">Create Product</button>
+                    <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear
+                        Form</button>
+                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                </div>
+            </div>
+        </div>
+        <!--CURRENT PRODUCTS TABLE-->
+        <p class="h1">Current Products</p>
+        <table class="table table-sm table-striped table-bordered" id="table-products" style="margin-bottom: 30px;">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th scope="col">ID</th>
+                    <th scope="col">Category</th>
+                    <th scope="col" style="width: 20%;">Specification</th>
+                    <th scope="col">DLC#</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Subsidiary</th>
+                    <th scope="col">Public Cost</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
 
-                </tbody>
-            </table>
-            <!-- POP UP MODAL FORM FOR EDITING CONTENT -->
-            <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="pop-up-content">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="exampleModalLabel">Edit Product Data</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">ID</span>
-                                    <input type="number" class="form-control" placeholder="ID" aria-label="ID"
-                                        aria-describedby="basic-addon1" id="id-input-modal" disabled>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Category</span>
-                                    <input type="text" class="form-control" placeholder="Category" aria-label="placeholder"
-                                        aria-describedby="basic-addon1" id="category-input-modal">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">DLC</span>
-                                    <input type="text" class="form-control" placeholder="DLC OR ES MODEL NO."
-                                        aria-label="placeholder" aria-describedby="basic-addon1" id="dlc-input-modal">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Brand</span>
-                                    <input type="text" class="form-control" placeholder="Brand" aria-label="placeholder"
-                                        aria-describedby="basic-addon1" id="brand-input-modal">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Specification</span>
-                                    <textarea class="form-control" aria-label="With textarea" id="specification-input-modal"></textarea>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Subsidiary</span>
-                                    <input type="number" class="form-control" placeholder="Subsidiary" aria-label="placeholder"
-                                        aria-describedby="basic-addon1" id="subsidiary-input-modal">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Public Cost</span>
-                                    <input type="number" class="form-control" placeholder="Public Cost" aria-label="placeholder"
-                                        aria-describedby="basic-addon1" id="public-cost-input-modal">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="unit-input-modal">Measurement Unit</label>
-                                    <select class="form-select" id="unit-input-modal">
-                                        <option selected value="0">Choose...</option>
-                                        <option value="DOLLAR">DOLLAR</option>
-                                        <option value="EURO">EURO</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="form-check form-switch me-auto">
-                                <input class="form-check-input" type="checkbox" role="switch" id="activeSwitch" onchange="checkActivation();" checked/>
-                                <label class="form-check-label">Active Product</label>
-                              </div>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="pushChanges()">Save Changes</button>
-                        </div>
+            </tbody>
+        </table>
+        <!-- POP UP MODAL FORM FOR EDITING CONTENT -->
+        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="pop-up-content">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel">Edit Product Data</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">ID</span>
+                                <input type="number" class="form-control" placeholder="ID" aria-label="ID"
+                                    aria-describedby="basic-addon1" id="id-input-modal" disabled>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Category</span>
+                                <input type="text" class="form-control" placeholder="Category" aria-label="placeholder"
+                                    aria-describedby="basic-addon1" id="category-input-modal">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">DLC</span>
+                                <input type="text" class="form-control" placeholder="DLC OR ES MODEL NO."
+                                    aria-label="placeholder" aria-describedby="basic-addon1" id="dlc-input-modal">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Brand</span>
+                                <input type="text" class="form-control" placeholder="Brand" aria-label="placeholder"
+                                    aria-describedby="basic-addon1" id="brand-input-modal">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Specification</span>
+                                <textarea class="form-control" aria-label="With textarea" id="specification-input-modal"></textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Subsidiary</span>
+                                <input type="number" class="form-control" placeholder="Subsidiary" aria-label="placeholder"
+                                    aria-describedby="basic-addon1" id="subsidiary-input-modal">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Public Cost</span>
+                                <input type="number" class="form-control" placeholder="Public Cost" aria-label="placeholder"
+                                    aria-describedby="basic-addon1" id="public-cost-input-modal">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="unit-input-modal">Measurement Unit</label>
+                                <select class="form-select" id="unit-input-modal">
+                                    <option selected value="0">Choose...</option>
+                                    <option value="DOLLAR">DOLLAR</option>
+                                    <option value="EURO">EURO</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-check form-switch me-auto">
+                            <input class="form-check-input" type="checkbox" role="switch" id="activeSwitch" onchange="checkActivation();" checked/>
+                            <label class="form-check-label">Active Product</label>
+                            </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="pushChanges()">Save Changes</button>
                     </div>
                 </div>
             </div>
-            </div>
-        </main>
+        </div>
+        </div>
+    </main>
 </body>
 <script type="text/javascript" src="scripts/products_scripts.js"></script>
 
