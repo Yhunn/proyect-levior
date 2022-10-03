@@ -3,15 +3,50 @@
 
 <head>
     <%- include('partials/head.ejs') %>
-        <title>Manage Products | Admin Operations</title>
+        <title>Manage Customers | Admin Operations</title>
 </head>
 
 <body>
     <%- include('partials/header.ejs') %>
     <main>
-        
+        <!--NEW CUSTOMER FORM-->
+        <p class="h1">New customer Form</p>
+        <div class="row align-items-start">
+            <div class="col-sm-8">
+
+            </div>
+            <!--BUTTONS COLUMN-->
+            <div class="col">
+                <p class="h4">Actions</p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success" type="button" onclick="">Create Product</button>
+                    <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear Form</button>
+                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                </div>
+            </div>
+        </div>
+        <!--CURRENT CUSTOMERS TABLE-->
+        <p class="h1">Current Customers</p>
+        <table class="table table-sm table-striped table-bordered" id="table-customers" style="margin-bottom: 30px;">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Account</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody id="customer-list">
+
+            </tbody>
+        </table>
     </main>
 </body>
-<!--<script type="text/javascript" src="scripts/products_scripts.js"></script>-->
+<script type="text/javascript" src="scripts/customer_scripts.js"></script>
 
 </html>
