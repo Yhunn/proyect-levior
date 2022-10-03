@@ -8,6 +8,16 @@ router.get('/', (req, res) => {
     res.render('customers.ejs');
 });
 
+router.get('/getData', (req, res) => {
+    db.any(`SELECT * FROM customers ORDER BY "id" ASC`)
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 router.get('/getCities', (req, res) => {
     db.any(`SELECT "id", "office_name" FROM office_locations WHERE "id">1 ORDER BY id ASC`)
     .then(rows => {
