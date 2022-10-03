@@ -46,8 +46,21 @@ router.post('/save', (req, res) =>{
 });
 
 router.post('/change', (req, res) =>{
-    console.log(req.body);
-    res.redirect('back');
+    let { name, address, account, currency, email, phone, city, id } = req.body;
+    try {
+        db.any(`UPDATE customers
+            SET name=$1, address=$2, account=$3, currency=$4, e_mail=$5, phone=$6, city=$7:raw
+            WHERE id=$8;`,
+            [name, address, account, currency, email, phone, city, id])
+            .then(response => {
+                res.redirect('back');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } catch (e) {
+        console.warn("Unable to insert into database");
+    }
 });
 
 router.post('/changeStatus', (req,res) =>{

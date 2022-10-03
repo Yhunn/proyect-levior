@@ -13,3 +13,7 @@ main {
 .input-group-text{
     width: 150px;
 }
+input[readonly]{
+   background-color: #e9ecef;
+   
+}
