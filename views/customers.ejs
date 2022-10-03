@@ -8,44 +8,87 @@
 
 <body>
     <%- include('partials/header.ejs') %>
-    <main>
-        <!--NEW CUSTOMER FORM-->
-        <p class="h1">New customer Form</p>
-        <div class="row align-items-start">
-            <div class="col-sm-8">
-
-            </div>
-            <!--BUTTONS COLUMN-->
-            <div class="col">
-                <p class="h4">Actions</p>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-success" type="button" onclick="">Create Product</button>
-                    <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear Form</button>
-                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+        <main>
+            <!--NEW CUSTOMER FORM-->
+            <p class="h1">New customer Form</p>
+            <form action="/customers/save" method="post" id="customer-form">
+                <div class="row align-items-start">
+                    <div class="col-sm-8">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Name</span>
+                            <input type="text" class="form-control" placeholder="Name" aria-label="placeholder"
+                                id="name-input" name="name" maxlength="90" minlength="" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Address</span>
+                            <input type="text" class="form-control" placeholder="Address" aria-label="placeholder"
+                                id="address-input" name="address" maxlength="120" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Account</span>
+                            <input type="text" class="form-control" placeholder="Account" aria-label="placeholder"
+                                id="account-input" name="account" maxlength="30" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="currency-input">Currency</label>
+                            <select class="form-select" id="currency-input" name="currency" form="customer-form" required>
+                                <option selected value="">Choose...</option>
+                                <option value="DOLLAR">DOLLAR</option>
+                                <option value="EURO">EURO</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">E-Mail</span>
+                            <input type="email" class="form-control" placeholder="E-Mail" aria-label="placeholder"
+                                id="email-input" name="email" maxlength="120" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Phone Number</span>
+                            <input type="tel" class="form-control" placeholder="Format: 123-456-7890"
+                                aria-label="placeholder" id="account-input"
+                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="city-id-input">City ID</label>
+                            <select class="form-select" id="city-id-input" name="city" form="customer-form" required>
+                                <option selected value="">Choose...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--BUTTONS COLUMN-->
+                    <div class="col">
+                        <p class="h4">Actions</p>
+                        <div class="d-grid gap-2">
+                            <input class="btn btn-success" type="submit" value="Create Product"/>
+                            <input class="btn btn-danger" type="reset" value="Clear Form"/>
+                            <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!--CURRENT CUSTOMERS TABLE-->
-        <p class="h1">Current Customers</p>
-        <table class="table table-sm table-striped table-bordered" id="table-customers" style="margin-bottom: 30px;">
-            <thead class="table-dark">
-                <tr class="text-center">
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Account</th>
-                    <th scope="col">Currency</th>
-                    <th scope="col">E-Mail</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">City</th>
-                    <th scope="col">Edit</th>
-                </tr>
-            </thead>
-            <tbody id="customer-list">
+            </form>
+            <!--CURRENT CUSTOMERS TABLE-->
+            <p class="h1">Current Customers</p>
+            <table class="table table-sm table-striped table-bordered" id="table-customers"
+                style="margin-bottom: 30px;">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Account</th>
+                        <th scope="col">Currency</th>
+                        <th scope="col">E-Mail</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="customer-list">
 
-            </tbody>
-        </table>
-    </main>
+                </tbody>
+            </table>
+        </main>
 </body>
 <script type="text/javascript" src="scripts/customer_scripts.js"></script>
 
