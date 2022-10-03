@@ -45,4 +45,25 @@ router.post('/save', (req, res) =>{
     }
 });
 
+router.post('/change', (req, res) =>{
+    console.log(req.body);
+    res.redirect('back');
+});
+
+router.post('/changeStatus', (req,res) =>{
+    let { id, status } = req.body;
+    try {
+        db.any(`UPDATE customers SET status=$2 WHERE id=$1 `,
+            [id, status])
+            .then(response => {
+                res.redirect('back');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } catch (e) {
+        console.warn("Unable to update database");
+    }
+});
+
 module.exports = router;

@@ -31,7 +31,8 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="currency-input">Currency</label>
-                            <select class="form-select" id="currency-input" name="currency" form="customer-form" required>
+                            <select class="form-select" id="currency-input" name="currency" form="customer-form"
+                                required>
                                 <option selected value="">Choose...</option>
                                 <option value="DOLLAR">DOLLAR</option>
                                 <option value="EURO">EURO</option>
@@ -45,8 +46,8 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">Phone Number</span>
                             <input type="tel" class="form-control" placeholder="Format: 123-456-7890"
-                                aria-label="placeholder" id="account-input"
-                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" required>
+                                aria-label="placeholder" id="phone-input" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                name="phone" required>
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="city-id-input">City ID</label>
@@ -59,8 +60,8 @@
                     <div class="col">
                         <p class="h4">Actions</p>
                         <div class="d-grid gap-2">
-                            <input class="btn btn-success" type="submit" value="Create Product"/>
-                            <input class="btn btn-danger" type="reset" value="Clear Form"/>
+                            <input class="btn btn-success" type="submit" value="Create Product" />
+                            <input class="btn btn-danger" type="reset" value="Clear Form" />
                             <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                         </div>
                     </div>
@@ -88,6 +89,78 @@
 
                 </tbody>
             </table>
+            <!-- POP UP MODAL FORM FOR EDITING CONTENT -->
+            <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="pop-up-content">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form action="/customers/change" method="post" id="update-form">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel">Edit Customer Data</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">ID</span>
+                                    <input type="number" class="form-control" placeholder="ID" aria-label="ID"
+                                        id="id-modal" disabled>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Name</span>
+                                    <input type="text" class="form-control" placeholder="Name" aria-label="placeholder"
+                                        id="name-modal" name="name" maxlength="90" minlength="" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Address</span>
+                                    <input type="text" class="form-control" placeholder="Address"
+                                        aria-label="placeholder" id="address-modal" name="address" maxlength="120"
+                                        required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Account</span>
+                                    <input type="text" class="form-control" placeholder="Account"
+                                        aria-label="placeholder" id="account-modal" name="account" maxlength="30"
+                                        required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="currency-modal">Currency</label>
+                                    <select class="form-select" id="currency-modal" name="currency" form="update-form"
+                                        required>
+                                        <option selected value="">Choose...</option>
+                                        <option value="DOLLAR">DOLLAR</option>
+                                        <option value="EURO">EURO</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">E-Mail</span>
+                                    <input type="email" class="form-control" placeholder="E-Mail"
+                                        aria-label="placeholder" id="email-modal" name="email" maxlength="120" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Phone Number</span>
+                                    <input type="tel" class="form-control" placeholder="Format: 123-456-7890"
+                                        aria-label="placeholder" id="phone-modal" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                        name="phone" required>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="city-id-modal">City ID</label>
+                                    <select class="form-select" id="city-id-modal" name="city" form="update-form"
+                                        required>
+                                        <option selected value="">Choose...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="form-check form-switch me-auto">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="activeSwitch"
+                                        onchange="checkActivation();" checked />
+                                    <label class="form-check-label">Active Customer</label>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Save Changes">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </main>
 </body>
 <script type="text/javascript" src="scripts/customer_scripts.js"></script>
