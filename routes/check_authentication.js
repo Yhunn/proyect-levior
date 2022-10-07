@@ -1,4 +1,5 @@
 const allowedPermissionsForProducts = ['*'];
+const allowedPermissionsForProjects = ['*'];
 const allowedPermissionsForCustomers = ['*'];
 const allowedPermissionsForPOSupply = ['*','2'];
 const allowedPermisionsForPOGenerator = ['*','1'];
@@ -26,6 +27,11 @@ const checkPermissions = (route) =>{
                     break;
                 case "customers":
                     if(validPermisions(allowedPermissionsForCustomers, userPermissions)){
+                        return next();
+                    }
+                    break;
+                case "projects":
+                    if(validPermisions(allowedPermissionsForProjects, userPermissions)){
                         return next();
                     }
                     break;
