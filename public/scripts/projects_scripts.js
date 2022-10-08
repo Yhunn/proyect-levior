@@ -8,4 +8,5 @@ $(document).ready(function(){
         });
         $('#customer-input').append(options);
     });
+
 });

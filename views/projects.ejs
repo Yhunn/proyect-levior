@@ -43,11 +43,11 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Creation Date</span>
-                        <input type="date" class="form-control" name="creation-date" required>
+                        <input type="date" class="form-control" name="creation-date" id="cr-date" value="<%= date %>" required>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Finish Date</span>
-                        <input type="date" class="form-control" name="end-date" required>
+                        <input type="date" class="form-control" name="end-date" id="end-date" min="<%= date %>" value="2030-12-31" required>
                     </div>
                 </div>
                 <!--BUTTONS COLUMN-->
