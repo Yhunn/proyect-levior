@@ -9,7 +9,78 @@
 <body>
     <%- include('partials/header.ejs') %>
     <main>
-        <p class="h1">LOADS</p>
+        <!--NEW PROJECT FORM-->
+        <p class="h1">New Project Form</p>
+        <form action="/customers/save" method="post" id="customer-form">
+            <div class="row align-items-start">
+                <div class="col-sm-8">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">UserID</span>
+                        <input type="text" class="form-control" name="userID" placeholder="UserID" aria-label="UserID" readonly>
+                        <span class="input-group-text">User</span>
+                        <input type="text" class="form-control" placeholder="Name of current User" aria-label="User" readonly>
+                        <span class="input-group-text">Office</span>
+                        <input type="text" class="form-control" placeholder="OfficeID" aria-label="Office" readonly>
+                      </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Utility</span>
+                        <input type="text" class="form-control" placeholder="Utility" aria-label="placeholder"
+                            id="utility-input" name="utility" maxlength="30" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="customer-input">Customer</label>
+                        <select class="form-select" id="customer-input" name="customer" form="customer-form"
+                            required>
+                            <option selected value="">Choose...</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Public Cost</span>
+                        <input type="number" class="form-control" placeholder="Public Cost"
+                            aria-label="placeholder" id="public-cost-input" name="public-cost" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Creation Date</span>
+                        <input type="date" class="form-control" name="creation-date" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Finish Date</span>
+                        <input type="date" class="form-control" name="end-date" required>
+                    </div>
+                </div>
+                <!--BUTTONS COLUMN-->
+                <div class="col">
+                    <p class="h4">Actions</p>
+                    <div class="d-grid gap-2">
+                        <input class="btn btn-success" type="submit" value="Create Product" />
+                        <input class="btn btn-danger" type="reset" value="Clear Form" />
+                        <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!--CURRENT PROJECTS TABLE-->
+        <p class="h1">Current Customers</p>
+        <table class="table table-sm table-striped table-bordered" id="table-customers"
+            style="margin-bottom: 30px;">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th scope="col">ID</th>
+                    <th scope="col">Utility</th>
+                    <th scope="col">Customer ID</th>
+                    <th scope="col">OfficeID</th>
+                    <th scope="col">Resposible ID</th>
+                    <th scope="col">Public Cost</th>
+                    <th scope="col">Creation Date</th>
+                    <th scope="col">Finish Date</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody id="customer-list">
+
+            </tbody>
+        </table>
     </main>
 </body>
 <script type="text/javascript" src="scripts/projects_scripts.js"></script>

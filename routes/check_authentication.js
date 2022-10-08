@@ -1,5 +1,5 @@
 const allowedPermissionsForProducts = ['*'];
-const allowedPermissionsForProjects = ['*'];
+const allowedPermissionsForProjects = ['*','1','2'];
 const allowedPermissionsForCustomers = ['*'];
 const allowedPermissionsForPOSupply = ['*','2'];
 const allowedPermisionsForPOGenerator = ['*','1'];
