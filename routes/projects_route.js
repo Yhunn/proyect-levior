@@ -15,7 +15,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/getCustomers', (req, res) => {
-    db.any('SELECT id, name FROM customers WHERE city=$1:raw ORDER BY id ASC', [req.user.office])
+    var userCity = req.user.office;
+    userCity == "1"? userCity="city": null;
+    db.any('SELECT id, name FROM customers WHERE city=$1:raw ORDER BY id ASC', [userCity])
         .then(rows => {
             res.json(rows);
         })
