@@ -12,6 +12,7 @@ main {
 
 .input-group-text{
     width: 150px;
+    font-weight: 500;
 }
 input[readonly]{
    background-color: #e9ecef;

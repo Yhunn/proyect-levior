@@ -11,17 +11,19 @@
     <main>
         <!--NEW PROJECT FORM-->
         <p class="h1">New Project Form</p>
-        <form action="/customers/save" method="post" id="customer-form">
+        <form action="/projects/save" method="post" id="customer-form">
             <div class="row align-items-start">
                 <div class="col-sm-8">
+                    <label for="user-data" class="h6">Current User Data</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">UserID</span>
-                        <input type="text" class="form-control" name="userID" placeholder="UserID" aria-label="UserID" readonly>
+                        <input type="text" class="form-control" name="userID" placeholder="User ID" aria-label="UserID" readonly>
                         <span class="input-group-text">User</span>
-                        <input type="text" class="form-control" placeholder="Name of current User" aria-label="User" readonly>
+                        <input type="text" class="form-control" placeholder="User Name" aria-label="User" readonly>
                         <span class="input-group-text">Office</span>
-                        <input type="text" class="form-control" placeholder="OfficeID" aria-label="Office" readonly>
-                      </div>
+                        <input type="text" class="form-control" placeholder="Office ID" aria-label="Office" readonly>
+                    </div>
+                    <label for="product-data" class="h6">Project Data</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Utility</span>
                         <input type="text" class="form-control" placeholder="Utility" aria-label="placeholder"
@@ -60,8 +62,8 @@
             </div>
         </form>
         <!--CURRENT PROJECTS TABLE-->
-        <p class="h1">Current Customers</p>
-        <table class="table table-sm table-striped table-bordered" id="table-customers"
+        <p class="h1">Current Projects</p>
+        <table class="table table-sm table-striped table-bordered" id="table-projects"
             style="margin-bottom: 30px;">
             <thead class="table-dark">
                 <tr class="text-center">
@@ -77,7 +79,7 @@
                     <th scope="col">Edit</th>
                 </tr>
             </thead>
-            <tbody id="customer-list">
+            <tbody id="projects-list">
 
             </tbody>
         </table>
