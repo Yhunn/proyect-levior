@@ -2,6 +2,11 @@ main {
     margin-left: 15px;
     margin-right: 15px;
 }
+
+.current_state::after {
+    content: "% ";
+}
+
 .dollars:before {
     content: "$ ";
 }

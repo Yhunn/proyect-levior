@@ -14,6 +14,19 @@ router.get('/', (req, res) => {
     res.render('projects.ejs', { username: req.user.name, userid: req.user.id, officeid: req.user.office, date: currentDate });
 });
 
+router.get('/getData', (req, res) => {
+    var userCity = req.user.office;
+    userCity == "1"? userCity="office": null;
+    db.any('SELECT * FROM projects WHERE office=$1:raw ORDER BY "id" ASC',
+    [userCity])
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 router.post('/save', (req,res) =>{
     let { userID,userName, userOffice,utility,customer,publicCost,creationDate,endDate } = req.body;
     try {
