@@ -14,6 +14,23 @@ router.get('/', (req, res) => {
     res.render('projects.ejs', { username: req.user.name, userid: req.user.id, officeid: req.user.office, date: currentDate });
 });
 
+router.post('/save', (req,res) =>{
+    let { userID,userName, userOffice,utility,customer,publicCost,creationDate,endDate } = req.body;
+    try {
+        db.any(`INSERT INTO projects
+            VALUES(DEFAULT, $1, $2, $3, $4, $5, $6, $7, 0)`,
+            [utility, customer, userOffice, userID, publicCost, creationDate, endDate])
+            .then(response => {
+                res.redirect('back');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    } catch (e) {
+        console.warn("Unable to insert into database");
+    }
+});
+
 router.get('/getCustomers', (req, res) => {
     var userCity = req.user.office;
     userCity == "1"? userCity="city": null;
