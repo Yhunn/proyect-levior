@@ -61,6 +61,9 @@ app.use("/products", productsRoute);
 const customersRoute = require("./routes/customers_route");
 app.use("/customers", customersRoute);
 
+const projectsRoute = require("./routes/projects_route");
+app.use("/projects", projectsRoute);
+
 //MIDDLEWARE FUNCTIONS
 function checkAuthenticated(req, res, next){
     if(req.isAuthenticated()){

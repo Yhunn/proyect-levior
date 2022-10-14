@@ -45,8 +45,9 @@
         <%
             const permissionsForProductsView = ['*'];
             const permissionsForCustomerView = ['*'];
+            const permissionsForProjectsView = ['*','1','2'];
 
-            const permissionsForDataManagement = [permissionsForProductsView, permissionsForCustomerView].flat();
+            const permissionsForDataManagement = [permissionsForProductsView, permissionsForCustomerView, permissionsForProjectsView].flat();
 
         %>
         <% if (permissionsForDataManagement.some(r=> views.includes(r))) { %>
@@ -75,6 +76,20 @@
                                 <h5 class="card-title">Customers</h5>
                                 <p class="card-text">Admin Operations. Administrate the customer databases content.</p>
                                 <a href="/customers" class="btn btn-success">Open Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- CHECK PERMISSIONS FOR POJECTS -->
+                <% if (permissionsForProjectsView.some(r=> views.includes(r))) { %>
+                    <div class="col-sm-4 mt-3 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">Data Management</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Projects</h5>
+                                <p class="card-text">Admin Operations. Generate and manage new projects.</p>
+                                <a href="/projects" class="btn btn-success">Open Tool</a>
                             </div>
                         </div>
                     </div>

@@ -2,102 +2,105 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head.ejs') %> 
-    <title>Purchase Order Generator Tool</title>
-    <style>
-        select {
-            width: 92px;
-            white-space: pre-wrap;
-        }
-    </style>
+    <%- include('partials/head.ejs') %>
+        <title>Purchase Order Generator Tool</title>
+        <style>
+            select {
+                width: 92px;
+                white-space: pre-wrap;
+            }
+        </style>
 </head>
 
 <body>
-    <%- include('partials/header.ejs') %> 
-    <main>
-        <p class="h3">Purchase Order Generator</p>
-        <!--
+    <%- include('partials/header.ejs') %>
+        <main>
+            <p class="h3">Purchase Order Generator</p>
+            <!--
         <li>
             <%= //officeData.officeName %> 
         </li>
         -->
-        <div class="row align-items-start">
-            <!-- COLUMN FORM AND TABLE-->
-            <div class="col-sm-8">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Project Name</span>
-                    <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
-                        aria-describedby="basic-addon1" id="project-name-input">
+            <form>
+                <div class="row align-items-start">
+                    <!-- COLUMN FORM AND TABLE-->
+                    <div class="col-sm-8">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">Select Customer</label>
+                            <select class="form-select" id="unit-input" name="unit" form="products-form" required>
+                                <option selected value="">Choose...</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">Select Project</label>
+                            <select class="form-select" id="unit-input" name="unit" form="products-form" required
+                                disabled>
+                                <option selected value="">Choose...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- COLUMN DATA AND ROWS-->
+                    <div class="col">
+                        <p class="h6">PO Data</p>
+                        <table class="table table-striped">
+                            <tbody class="editable-body">
+                                <tr>
+                                    <th scope="row">Input Date</th>
+                                    <td>03/09/2022</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Purchase Order No.</th>
+                                    <td id="customID">ELP-2022-1</td>
+                                </tr>
+                        </table>
+                        <!--CURRENT ROW INPUT-->
+                        <p class="h6">Rows</p>
+                        <div class="input-group mb-3">
+                            <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
+                                onclick="removeRowPO()">-</button>
+                            <input type="text" class="form-control" aria-label="Current amount of item rows" disabled
+                                value="0" id="input-row-count">
+                            <button class="btn btn-outline-secondary" type="button" id="btn-row-add"
+                                onclick="addRowPO()">+</button>
+                        </div>
+                    </div>
+                    <!-- COLUMN BUTTONS-->
+                    <div class="col">
+                        <p class="h4">Actions</p>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success" type="button" onclick="">Create PO</button>
+                            <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear
+                                Form</button>
+                            <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Ship TO</span>
-                    <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
-                        aria-describedby="basic-addon1" id="ship-to-input">
+                <div>
+                    <!--ITEM TABLE-->
+                    <label for="basic-url" class="form-label h3">Items</label>
+                    <table class="table table-sm table-striped table-bordered" id="tablePO">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" style="width: 15%;">Category</th>
+                                <th scope="col" style="width: 25%;">Specification</th>
+                                <th scope="col" style="width: 20%;">DLC#</th>
+                                <th scope="col" style="width: 10%;">Brand</th>
+                                <th scope="col" style="width: 10%;">Subsidiary</th>
+                                <th scope="col" style="width: 10%;">Public Cost</th>
+                                <th scope="col" style="width: 10%;">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="item-list">
+
+                        </tbody>
+                    </table>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1" style="width: 135px;">Requisitioner</span>
-                    <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
-                        aria-describedby="basic-addon1" id="requisitioner-input">
-                </div>
-            </div>
-            <!-- COLUMN DATA AND ROWS-->
-            <div class="col">
-                <p class="h6">PO Data</p>
-                <table class="table table-striped">
-                    <tbody class="editable-body">
-                        <tr>
-                            <th scope="row">Input Date</th>
-                            <td>03/09/2022</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Purchase Order No.</th>
-                            <td id="customID">ELP-2022-1</td>
-                        </tr>
-                </table>
-                <!--CURRENT ROW INPUT-->
-                <p class="h6">Rows</p>
-                <div class="input-group mb-3">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
-                        onclick="removeRowPO()">-</button>
-                    <input type="text" class="form-control" aria-label="Current amount of item rows" disabled value="0"
-                        id="input-row-count">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-row-add" onclick="addRowPO()">+</button>
-                </div>
-            </div>
-            <!-- COLUMN BUTTONS-->
-            <div class="col">
-                <p class="h4">Actions</p>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-success" type="button" onclick="push_PO();">Create PO</button>
-                    <button class="btn btn-danger" type="button" onclick="window.location.reload();">Clear Form</button>
-                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
-                </div>
-            </div>
-        </div>
-        <div>
-            <!--ITEM TABLE-->
-            <label for="basic-url" class="form-label h3">Items</label>
-            <table class="table table-sm table-striped table-bordered" id="tablePO">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col" style="width: 15%;">Category</th>
-                        <th scope="col" style="width: 25%;">Specification</th>
-                        <th scope="col" style="width: 20%;">DLC#</th>
-                        <th scope="col" style="width: 10%;">Brand</th>
-                        <th scope="col" style="width: 10%;">Subsidiary</th>
-                        <th scope="col" style="width: 10%;">Public Cost</th>
-                        <th scope="col" style="width: 10%;">Quantity</th>
-                    </tr>
-                </thead>
-                <tbody id="item-list">
-                    
-                </tbody>
-            </table>
-        </div>
-    </main>
+            </form>
+        </main>
 </body>
 
 <!--JAVASCRIPT FUNCTIONS-->
 <script type="text/javascript" src="scripts/common_scripts.js"></script>
 <script type="text/javascript" src="scripts/po_generator_scripts.js"></script>
+
 </html>
