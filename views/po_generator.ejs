@@ -29,13 +29,13 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">UserID</span>
                             <input type="text" class="form-control" name="userID" placeholder="User ID"
-                                aria-label="UserID" value="<%= //userid %>" readonly>
+                                aria-label="UserID" value="<%= userID %>" readonly>
                             <span class="input-group-text">User</span>
                             <input type="text" class="form-control" name="userName" placeholder="User Name"
-                                aria-label="User" value="<%= //username %>" readonly>
+                                aria-label="User" value="<%= userName %>" readonly>
                             <span class="input-group-text">Office</span>
                             <input type="text" class="form-control" name="userOffice" placeholder="Office ID"
-                                aria-label="Office" value="<%= //officeid %>" readonly>
+                                aria-label="Office" value="<%= officeData.id %>" readonly>
                         </div>
                         <!-- PO DATA -->
                         <label class="h6">Purchase Order Data</label>
@@ -76,7 +76,7 @@
                             <label class="h6">Input Date</label>
                             <div class="input-group mb-3">
                                 <input type="date" class="form-control" name="inputDate" id="input-date"
-                                    value="" required>
+                                    value="<%= currentDate %>" min="<%= currentDate %>" required>
                             </div>
                             <label class="h6">Purchas Order No.</label>
                             <div class="input-group mb-3">

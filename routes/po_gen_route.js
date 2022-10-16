@@ -6,6 +6,11 @@ router.use(checkPermissions("po_generator"));
 
 router.get('/', (req, res) => {
     const idUserOffice = req.user.office;
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    const currentDate= year + "-" + month + "-" + date;
     try {
         //LOAD CURRENT OFFICE OFF USER DATA
         db.any(`SELECT * FROM "office_locations" WHERE "id" = $1`,[idUserOffice])
@@ -33,7 +38,7 @@ router.get('/', (req, res) => {
                 });
 
             */
-            res.render("po_generator.ejs",{ officeData: officeData[0] });
+            res.render("po_generator.ejs",{ officeData: officeData[0], userID: req.user.id, userName: req.user.name, currentDate: currentDate });
         });
     } catch (error) {
         console.warn('Failed to load from database');
