@@ -35,13 +35,13 @@
                                 aria-label="User" value="<%= userName %>" readonly>
                             <span class="input-group-text">Office</span>
                             <input type="text" class="form-control" name="userOffice" placeholder="Office ID"
-                                aria-label="Office" value="<%= officeData.id %>" readonly>
+                                aria-label="Office" id="officeIDInput" value="<%= officeData.id %>" readonly>
                         </div>
                         <!-- PO DATA -->
                         <label class="h6">Purchase Order Data</label>
                         <div class="input-group mb-3">
                             <label class="input-group-text">Select Customer</label>
-                            <select class="form-select" id="customer-input" name="customerID" form="po-form" required>
+                            <select class="form-select" id="customer-input" name="customerID" form="po-form" onchange="selectCustomer(this)" required>
                                 <option selected value="">Choose...</option>
                             </select>
                         </div>

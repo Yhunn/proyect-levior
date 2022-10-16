@@ -1,8 +1,8 @@
 
 var productsArray = [];
+var projectsArray = [];
 //FILLING PRODUCT DATA
 $(document).ready(function(){
-    setEditable();
     fetch('/PO_Generator/productData')
     .then(response => response.json())
     .then(data => {
@@ -16,6 +16,29 @@ $(document).ready(function(){
                 subsidiary: row.subsidiary,
                 publicCost: row.public_cost,
                 unit: row.measurement_unit
+            });
+        });
+    });
+    fetch('/customers/getData')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row => {
+            if(row.city == +$('#officeIDInput').val() || $('#officeIDInput').val() == 1){
+                $('#customer-input').append($('<option>',{
+                    value: row.id,
+                    text: row.name
+                }));
+            }
+        });
+    });
+    fetch('/projects/getData')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row => {
+            projectsArray.push({
+                id: row.id,
+                utility: row.utility,
+                customer: row.from_customer
             });
         });
     });
@@ -35,20 +58,19 @@ function onRowChange(inputRow){
             removeRowPO();            
         }
     }
-    console.log(rowCount);
 }
 
 function addRowPO(){
     $('#item-list').append(`<tr style="vertical-align: middle;">
                     <td>
                         <select class="form-select product-category" onchange='selectCategory(this);'>
-                            <option selected value="0">Choose...</option>
+                            <option selected value="">Choose...</option>
                         </select>
                     </td>
                     <td>
                         <select class="selectpicker form-select product-specif" onfocus='this.size=5;'
                             onblur='this.size=1;' onchange='this.size=1; populateOffSpecification(this); this.blur();' disabled >
-                            <option selected value="0">Choose...</option>
+                            <option selected value="">Choose...</option>
                         </select>
                     </td>
                     <td class="product-dlc"></td>
@@ -95,7 +117,7 @@ function selectCategory(selection){
     var row = $(selection).parent().parent();
     var specif = row.find('.product-specif');
     resetSpecificationRoutine(row, specif);
-    if(selection.value == "0"){
+    if(selection.value == ""){
         specif.prop('disabled', true);
     }else{
         productsArray.forEach(product=>{
@@ -110,11 +132,31 @@ function selectCategory(selection){
     }
 }
 
+function selectCustomer(selection){
+    var projectInput= $('#project-input');
+    if(selection.value == ""){
+        $(projectInput).empty();
+        $(projectInput).append('<option selected value="">Choose...</option>');
+        $(projectInput).val('');
+        $(projectInput).attr('disabled', true);
+    } else{
+        projectsArray.forEach(project =>{
+            if (project.customer == selection.value) {
+                $(projectInput).append($('<option>',{
+                    value: project.id,
+                    text: project.utility
+                }));
+            }
+        });
+        $(projectInput).removeAttr('disabled');
+    }
+}
+
 function resetSpecificationRoutine(row, specif){
     clearRowData(row);
     specif.empty();
-    specif.append('<option selected value="0">Choose...</option>');
-    specif.val('0');    
+    specif.append('<option selected value="">Choose...</option>');
+    specif.val('');    
 }
 
 function clearRowData(row){
@@ -131,7 +173,7 @@ function clearRowData(row){
 function populateOffSpecification(selection){
     var row = $(selection).parent().parent();
     clearRowData(row);
-    if(selection.value != "0"){
+    if(selection.value != ""){
         //POPULATE
         productsArray.forEach(product =>{
             if(product.specification == selection.value){
