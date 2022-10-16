@@ -1,39 +1,3 @@
-//NOT WORKING
-function push_PO() {
-    var rowCount = $("#input-row-count").val();
-    if (rowCount > 0) {
-        $('#tablePO > tbody > tr').each(function () {
-            var pName = $("#project-name-input").val();
-            var shipTo = $("#ship-to-input").val();
-            var requis = $("#requisitioner-input").val();
-
-            var model = $(this).find(".model").text();
-            var desc = $(this).find(".desc").text();
-            var qnty = $(this).find(".qnty").text();
-
-            var poID = $("#customID").html();
-
-            $.post("PO_Generator/save", {
-                pName: pName,
-                shipTo: shipTo,
-                requis: requis,
-                model: model,
-                desc: desc,
-                qnty: qnty,
-                poID: poID
-            },
-                function (data, status) { });
-            $(this).remove();
-        });
-        $("#project-name-input").val("");
-        $("#ship-to-input").val("");
-        $("#requisitioner-input").val("");
-        $("#input-row-count").attr("value", "0");
-    }
-    else {
-        alert("No hay datos")
-    }
-}
 
 var productsArray = [];
 //FILLING PRODUCT DATA
@@ -56,6 +20,23 @@ $(document).ready(function(){
         });
     });
 });
+
+var rowCount = 0;
+
+function onRowChange(inputRow){
+    var changeValue= $(inputRow).val()
+    if(changeValue > rowCount){
+        for (rowCount; rowCount < changeValue; rowCount++) {
+            addRowPO();            
+        }
+    }
+    if(changeValue < rowCount){
+        for (rowCount; rowCount > changeValue; rowCount--) {
+            removeRowPO();            
+        }
+    }
+    console.log(rowCount);
+}
 
 function addRowPO(){
     $('#item-list').append(`<tr style="vertical-align: middle;">
@@ -90,16 +71,24 @@ function addRowPO(){
             }));
         }
     });
-    var rowCount = +$("#input-row-count").val() + 1;
-    $("#input-row-count").val(rowCount);
 }
 
 function removeRowPO(){
-    var rowCount = $("#input-row-count").val();
-    if(rowCount>0){
-        $('#item-list tr:last-child').remove();
-        $("#input-row-count").val(rowCount-1);
+    $('#item-list tr:last-child').remove();
+}
+
+function btnPressedRemove(){
+    const rowInput = +$("#input-row-count").val();
+    if (rowInput > 0) {
+        $("#input-row-count").val(rowInput-1);
     }
+    $("#input-row-count").change();
+}
+
+function btnPressedAdd(){
+    const rowInput = +$("#input-row-count").val();
+    $("#input-row-count").val(rowInput+1);
+    $("#input-row-count").change();
 }
 
 function selectCategory(selection){

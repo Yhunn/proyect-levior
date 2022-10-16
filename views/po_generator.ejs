@@ -91,11 +91,11 @@
                             <label class="h6">Rows</label>
                             <div class="input-group mb-3">
                                 <button class="btn btn-outline-secondary" type="button" id="btn-row-substract"
-                                    onclick="removeRowPO()">-</button>
+                                    onclick="btnPressedRemove();">-</button>
                                 <input type="number" class="form-control" value="0" min="0" step="1"
-                                    id="input-row-count">
+                                    id="input-row-count" onchange="onRowChange(this);">
                                 <button class="btn btn-outline-secondary" type="button" id="btn-row-add"
-                                    onclick="addRowPO()">+</button>
+                                    onclick="btnPressedAdd();">+</button>
                             </div>
                         </div>
                     </div>
