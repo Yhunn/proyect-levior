@@ -38,7 +38,8 @@ $(document).ready(function(){
             projectsArray.push({
                 id: row.id,
                 utility: row.utility,
-                customer: row.from_customer
+                customer: row.from_customer,
+                responsible: row.responsible
             });
         });
     });
@@ -139,6 +140,7 @@ function selectCustomer(selection){
         $(projectInput).append('<option selected value="">Choose...</option>');
         $(projectInput).val('');
         $(projectInput).attr('disabled', true);
+        $(projectInput).change();
     } else{
         projectsArray.forEach(project =>{
             if (project.customer == selection.value) {
@@ -149,6 +151,23 @@ function selectCustomer(selection){
             }
         });
         $(projectInput).removeAttr('disabled');
+    }
+}
+
+function selectProject(selection){
+    var projectInput= $('#responsible-input');
+    if(selection.value == ""){
+        $(projectInput).removeAttr('readonly');
+        $(projectInput).attr('value','');
+        $(projectInput).attr('readonly', true);
+    }else{
+        projectsArray.forEach(project =>{
+            if(project.id == selection.value){
+                $(projectInput).removeAttr('readonly');
+                $(projectInput).attr('value', project.responsible);
+                $(projectInput).attr('readonly', true);
+            }
+        });
     }
 }
 
