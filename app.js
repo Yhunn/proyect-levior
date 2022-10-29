@@ -46,9 +46,6 @@ app.delete('/logout', function(req, res, next) {
 const loginRoute = require("./routes/login_user_route");
 app.use("/login", loginRoute);
 
-const usersRoute = require("./routes/users_route");
-app.use("/users", usersRoute);
-
 const poGenRoute = require("./routes/po_gen_route");
 app.use("/PO_Generator", poGenRoute);
 
