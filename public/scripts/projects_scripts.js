@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    fetch('/projects/getCustomers')
+    fetch('/api/customers/fromOffice')
     .then(response => response.json())
     .then(data => {
         var options = ``;
@@ -8,7 +8,7 @@ $(document).ready(function(){
         });
         $('#customer-input').append(options);
     });
-    fetch('/projects/getData')
+    fetch('/api/projects/fromOffice')
     .then(response => response.json())
     .then(data => {
         data.forEach(row =>{

@@ -1,6 +1,6 @@
 var productsArray = [];
 $(document).ready(function(){
-    fetch('/products/getData')
+    fetch('/api/products')
     .then(response => response.json())
     .then(data => {
         data.forEach(row =>{
@@ -19,6 +19,14 @@ $(document).ready(function(){
                             </tr>`);
         });
     });
+});
+
+$("#change-form").on("submit", function(){
+    const id = $('#id-input-modal').val();
+    const newAction = "/api/products/" + id;
+    console.log(id);
+    $("#change-form").attr('action', newAction);
+    return true;
 });
 
 function editRow(button){
@@ -49,12 +57,11 @@ function editRow(button){
 function checkActivation(){
     var id = $('#id-input-modal').val();
     var ischecked= $("#activeSwitch").is(':checked');
-    $.post("products/changeStatus", {
-        id: id,
+    console.log(id);
+    $.post("api/products/status/"+id, {
         status: ischecked
     },
     function (data, status) {
         location.reload();
     });
-    
 }

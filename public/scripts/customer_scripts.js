@@ -1,6 +1,6 @@
 var productsArray = [];
 $(document).ready(function(){
-    fetch('/customers/getCities')
+    fetch('/api/offices')
     .then(response => response.json())
     .then(data => {
         var options = ``;
@@ -10,7 +10,7 @@ $(document).ready(function(){
         $('#city-id-input').append(options);
         $('#city-id-modal').append(options);
     });
-    fetch('/customers/getData')
+    fetch('/api/customers')
     .then(response => response.json())
     .then(data =>{
         data.forEach(row=>{
@@ -59,8 +59,7 @@ function editRow(button){
 function checkActivation(){
     var id = $('#id-modal').val();
     var ischecked= $("#activeSwitch").is(':checked');
-    $.post("customers/changeStatus", {
-        id: id,
+    $.post("api/customers/status/" + id, {
         status: ischecked
     },
     function (data, status) {
@@ -68,3 +67,11 @@ function checkActivation(){
     });
     
 }
+
+$("#update-form").on("submit", function(){
+    const id = $('#id-modal').val();
+    const newAction = "/api/customers/" + id;
+    console.log(id);
+    $("#update-form").attr('action', newAction);
+    return true;
+});

@@ -3,7 +3,7 @@ var productsArray = [];
 var projectsArray = [];
 //FILLING PRODUCT DATA
 $(document).ready(function(){
-    fetch('/PO_Generator/productData')
+    fetch('/api/products')
     .then(response => response.json())
     .then(data => {
         data.forEach(row =>{
@@ -19,7 +19,7 @@ $(document).ready(function(){
             });
         });
     });
-    fetch('/customers/getData')
+    fetch('/api/customers')
     .then(response => response.json())
     .then(data => {
         data.forEach(row => {
@@ -31,7 +31,7 @@ $(document).ready(function(){
             }
         });
     });
-    fetch('/projects/getData')
+    fetch('/api/projects')
     .then(response => response.json())
     .then(data => {
         data.forEach(row => {

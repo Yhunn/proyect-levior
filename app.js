@@ -64,6 +64,9 @@ app.use("/customers", customersRoute);
 const projectsRoute = require("./routes/projects_route");
 app.use("/projects", projectsRoute);
 
+const apiRoute = require("./routes/api");
+app.use("/api", apiRoute);
+
 //MIDDLEWARE FUNCTIONS
 function checkAuthenticated(req, res, next){
     if(req.isAuthenticated()){
