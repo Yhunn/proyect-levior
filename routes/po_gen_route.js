@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const checkPermissions = require('./check_authentication');
-const fetch = require('node-fetch');
+const request = require('request');
+
 router.use(checkPermissions("po_generator"));
 
 router.get('/', async (req, res) => {
@@ -15,7 +16,14 @@ router.get('/', async (req, res) => {
     try {
         //LOAD CURRENT OFFICE OFF USER DATA
         const officeData = [];
-        
+        console.log(req.path);
+        request({
+            url: "../api/offices",
+            json: true
+        }, (err,res, body) =>{
+            console.log(body);
+        });
+
         await db.query(`SELECT * FROM "office_locations" WHERE "id" = $1`, [idUserOffice])
         .then(rows => {
             rows.forEach(row => {
