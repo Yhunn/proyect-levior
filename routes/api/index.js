@@ -20,6 +20,9 @@ router.use('/projects', apiProjects);
 const apiOffices = require('./offices');
 router.use('/offices', apiOffices);
 
+const apiPo = require('./po');
+router.use('/po', apiPo);
+
 router.get('/*', (req,res) =>{
     res.status(400).send('Request not managed properly');
 });

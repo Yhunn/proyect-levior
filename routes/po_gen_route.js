@@ -16,29 +16,22 @@ router.get('/', async (req, res) => {
     try {
         //LOAD CURRENT OFFICE OFF USER DATA
         const officeData = [];
-        console.log(req.path);
-        request({
-            url: "../api/offices",
-            json: true
-        }, (err,res, body) =>{
-            console.log(body);
-        });
-
-        await db.query(`SELECT * FROM "office_locations" WHERE "id" = $1`, [idUserOffice])
-        .then(rows => {
-            rows.forEach(row => {
-                officeData.push({
-                    id: row.id,
-                    officeName: row.office_name,
-                    abreviation: row.abreviation
-                });
-            });
+        var fullUrl = req.protocol + '://' + req.get('host') + '/api/offices/' + idUserOffice;
+        var fetchOffice = await getJsonFetch(fullUrl);
+        officeData.push({
+            id: fetchOffice[0].id,
+            officeName: fetchOffice[0].office_name,
+            abreviation: fetchOffice[0].abreviation
         })
-        .catch(error =>{
-            res.status(500).send(error);
-        });
-        //await db.query(`SELECT * FROM "purchase_orders"`)
-        res.render("po_generator.ejs", { officeData: officeData[0], userID: req.user.id, userName: req.user.name, currentDate: currentDate });
+        fullUrl = req.protocol + '://' + req.get('host') + '/api/po/' + idUserOffice;
+        var fetchPO = await getJsonFetch(fullUrl);
+        var currentPOFolio = "";
+        if(fetchPO.length > 0){
+            //routine to get last po noumber
+        } else{
+            currentPOFolio = officeData[0].abreviation + "-" + year + "-" + "0001-01"; 
+        }
+        res.render("po_generator.ejs", { officeData: officeData[0], userID: req.user.id, userName: req.user.name, currentDate: currentDate, poFolio: currentPOFolio });
     } catch (error) {
         console.warn("Fetch unsuccessful");
         res.status(400).send("Fetch unsuccessful\n" + e);
@@ -75,5 +68,24 @@ router.post('/save', (req, res) => {
         console.warn("Unable to insert into database");
     }
 });
+
+//REQUEST FUNCTIONS
+function getJsonFetch(url){
+    return new Promise((resolve, reject) =>{
+        request({
+            url: url,
+            json:true
+        }, (error, response, body) => {
+            if (error) reject(error);
+            if (response.statusCode != 200) {
+                reject('Invalid status code <' + response.statusCode + '>');
+            }
+            resolve(body);
+
+        });
+    });
+}
+
+
 
 module.exports = router;
