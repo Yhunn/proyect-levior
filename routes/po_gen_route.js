@@ -23,15 +23,24 @@ router.get('/', async (req, res) => {
             officeName: fetchOffice[0].office_name,
             abreviation: fetchOffice[0].abreviation
         })
-        fullUrl = req.protocol + '://' + req.get('host') + '/api/po/' + idUserOffice;
+        fullUrl = req.protocol + '://' + req.get('host') + '/api/po/office/' + idUserOffice;
         const fetchPO = await getJsonFetch(fullUrl);
         var currentPOFolio = "";
         if(fetchPO.length > 0){
             var lastPO = 0;
             fetchPO.forEach(po => {
-                po.registry_3 > lastPO ? lastPO = po.registry_3 : null;
+                const lastRegistered = parseInt(po.registry_3);
+                lastRegistered > lastPO ? lastPO = lastRegistered : null;
             });
-            currentPOFolio = officeData[0].abreviation + "-" + year + "-" + lastPO + "-01"; 
+            lastPO++;
+            const numberLength = lastPO.toString().length;
+            const zeroLength = 4-numberLength;
+            var nextPO = "";
+            for (let i = 0; i < zeroLength; i++) {
+                nextPO = nextPO + "0";
+            }
+            nextPO = nextPO + lastPO.toString();
+            currentPOFolio = officeData[0].abreviation + "-" + year + "-" + nextPO + "-01"; 
         } else{
             currentPOFolio = officeData[0].abreviation + "-" + year + "-" + "0001-01"; 
         }
