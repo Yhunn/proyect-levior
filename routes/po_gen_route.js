@@ -17,17 +17,21 @@ router.get('/', async (req, res) => {
         //LOAD CURRENT OFFICE OFF USER DATA
         const officeData = [];
         var fullUrl = req.protocol + '://' + req.get('host') + '/api/offices/' + idUserOffice;
-        var fetchOffice = await getJsonFetch(fullUrl);
+        const fetchOffice = await getJsonFetch(fullUrl);
         officeData.push({
             id: fetchOffice[0].id,
             officeName: fetchOffice[0].office_name,
             abreviation: fetchOffice[0].abreviation
         })
         fullUrl = req.protocol + '://' + req.get('host') + '/api/po/' + idUserOffice;
-        var fetchPO = await getJsonFetch(fullUrl);
+        const fetchPO = await getJsonFetch(fullUrl);
         var currentPOFolio = "";
         if(fetchPO.length > 0){
-            //routine to get last po noumber
+            var lastPO = 0;
+            fetchPO.forEach(po => {
+                po.registry_3 > lastPO ? lastPO = po.registry_3 : null;
+            });
+            currentPOFolio = officeData[0].abreviation + "-" + year + "-" + lastPO + "-01"; 
         } else{
             currentPOFolio = officeData[0].abreviation + "-" + year + "-" + "0001-01"; 
         }
@@ -35,37 +39,6 @@ router.get('/', async (req, res) => {
     } catch (error) {
         console.warn("Fetch unsuccessful");
         res.status(400).send("Fetch unsuccessful\n" + e);
-    }
-});
-
-router.get('/productData', (req, res) => {
-    db.any("SELECT * FROM products WHERE active_product=true ORDER BY id ASC")
-        .then(rows => {
-            res.json(rows);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-});
-
-router.post('/save', (req, res) => {
-    let { pName,
-        shipTo,
-        requis,
-        model,
-        desc,
-        qnty,
-        poID } = req.body;
-
-    //DATABASE INSERT QUERY - FOR CATEGORY
-    try {
-        db.query(`INSERT INTO $1:name VALUES(default, $2, $3, $4, $5, $6, $7, $8, $9)`, ['po_toDeliver_provisional'
-            , poID, pName, shipTo, requis, model, desc, qnty, false])
-            .then(response => {
-                console.log("query successful, data added to database");
-            });
-    } catch (err) {
-        console.warn("Unable to insert into database");
     }
 });
 

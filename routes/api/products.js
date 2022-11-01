@@ -4,7 +4,18 @@ const db = require('../../db');
 
 //GET ALL
 router.get('/', (req,res) =>{
-    db.any("SELECT * FROM products ORDER BY category ASC")
+    db.any("SELECT * FROM products ORDER BY category ASC, id")
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(error => {
+        res.status(500).send(error);
+    });
+});
+
+//GET ACTIVES
+router.get('/active', (req,res) =>{
+    db.any("SELECT * FROM products WHERE active_product=true ORDER BY id ASC")
     .then(rows => {
         res.json(rows);
     })

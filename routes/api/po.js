@@ -47,7 +47,7 @@ router.post('/:id', (req, res) =>{
 
 //POST ONE
 router.post('/', (req, res) =>{
-    
+    console.log(req.body);
 });
 
 

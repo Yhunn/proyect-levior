@@ -3,7 +3,7 @@ var productsArray = [];
 var projectsArray = [];
 //FILLING PRODUCT DATA
 $(document).ready(function(){
-    fetch('/api/products')
+    fetch('/api/products/active')
     .then(response => response.json())
     .then(data => {
         data.forEach(row =>{
@@ -69,8 +69,8 @@ function addRowPO(){
                         </select>
                     </td>
                     <td>
-                        <select class="selectpicker form-select product-specif" onfocus='this.size=5;'
-                            onblur='this.size=1;' onchange='this.size=1; populateOffSpecification(this); this.blur();' disabled >
+                        <select class="selectpicker form-select product-specif" form="po-form" name="products"
+                        onchange='populateOffSpecification(this);' required>
                             <option selected value="">Choose...</option>
                         </select>
                     </td>
@@ -80,7 +80,7 @@ function addRowPO(){
                     <td class="product-public-cost"></td>
                     <td>
                         <div class="input-group">
-                            <input type="number" class="form-control product-unit" value="0" disabled>
+                            <input type="number" class="form-control product-unit" value="" name="quantity" required>
                           </div>
                     </td>
                 </tr>`);
@@ -119,17 +119,17 @@ function selectCategory(selection){
     var specif = row.find('.product-specif');
     resetSpecificationRoutine(row, specif);
     if(selection.value == ""){
-        specif.prop('disabled', true);
+        //specif.prop('disabled', true);
     }else{
         productsArray.forEach(product=>{
             if(product.category == selection.value){
                 specif.append($('<option>',{
-                value: product.specification,
+                value: product.id,
                 text: product.specification
             }));
             }
         });
-        specif.prop('disabled', false);
+        //specif.prop('disabled', false);
     }
 }
 
@@ -185,8 +185,8 @@ function clearRowData(row){
     row.find('.product-public-cost').text('');
     row.find('.product-subsidiary').attr('class', 'product-subsidiary');
     row.find('.product-public-cost').attr('class', 'product-public-cost');
-    row.find('.product-unit').val('0');
-    row.find('.product-unit').prop('disabled', true);
+    //row.find('.product-unit').val('0');
+    //row.find('.product-unit').prop('disabled', true);
 }
 
 function populateOffSpecification(selection){
@@ -195,7 +195,7 @@ function populateOffSpecification(selection){
     if(selection.value != ""){
         //POPULATE
         productsArray.forEach(product =>{
-            if(product.specification == selection.value){
+            if(product.id == selection.value){
                 row.find('.product-dlc').text(product.dlc);
                 row.find('.product-brand').text(product.brand);
                 switch (product.unit) {
@@ -210,7 +210,7 @@ function populateOffSpecification(selection){
                 }
                 row.find('.product-subsidiary').text(product.subsidiary);
                 row.find('.product-public-cost').text(product.publicCost);
-                row.find('.product-unit').prop('disabled', false);
+                //row.find('.product-unit').prop('disabled', false);
             }
         });
     }
