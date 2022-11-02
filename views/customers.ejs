@@ -10,8 +10,8 @@
     <%- include('partials/header.ejs') %>
         <main>
             <!--NEW CUSTOMER FORM-->
-            <p class="h1">New customer Form</p>
-            <form action="/customers/save" method="post" id="customer-form">
+            <p class="h3">New customer Form</p>
+            <form action="api/customers/" method="post" id="customer-form">
                 <div class="row align-items-start">
                     <div class="col-sm-8">
                         <div class="input-group mb-3">
@@ -60,7 +60,7 @@
                     <div class="col">
                         <p class="h4">Actions</p>
                         <div class="d-grid gap-2">
-                            <input class="btn btn-success" type="submit" value="Create Product" />
+                            <input class="btn btn-success" type="submit" value="Create Customer" />
                             <input class="btn btn-danger" type="reset" value="Clear Form" />
                             <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                         </div>
@@ -68,7 +68,7 @@
                 </div>
             </form>
             <!--CURRENT CUSTOMERS TABLE-->
-            <p class="h1">Current Customers</p>
+            <p class="h3">Current Customers</p>
             <table class="table table-sm table-striped table-bordered" id="table-customers"
                 style="margin-bottom: 30px;">
                 <thead class="table-dark">
@@ -93,7 +93,7 @@
             <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="pop-up-content">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <form action="/customers/change" method="post" id="update-form">
+                        <form action="/api/customers/" method="post" id="update-form">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="exampleModalLabel">Edit Customer Data</h4>
                             </div>

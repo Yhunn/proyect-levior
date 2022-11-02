@@ -11,8 +11,8 @@
 
         <main>
             <!--NEW PRODUCT FORM-->
-            <p class="h1">New product Form</p>
-            <form action="/products/save" method="post" id="products-form">
+            <p class="h3">New product Form</p>
+            <form action="api/products/" method="post" id="products-form">
                 <div class="row align-items-start">
                     <div class="col-sm-8">
                         <div class="input-group mb-3">
@@ -66,7 +66,7 @@
                 </div>
             </form>
             <!--CURRENT PRODUCTS TABLE-->
-            <p class="h1">Current Products</p>
+            <p class="h3">Current Products</p>
             <table class="table table-sm table-striped table-bordered" id="table-products" style="margin-bottom: 30px;">
                 <thead class="table-dark">
                     <tr class="text-center">
@@ -90,7 +90,7 @@
             <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="pop-up-content">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <form action="/products/change" method="post" id="change-form">
+                        <form action="/api/products/" method="post" id="change-form">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="exampleModalLabel">Edit Product Data</h4>
                             </div>
@@ -147,7 +147,7 @@
                                     <label class="form-check-label">Active Product</label>
                                 </div>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary" value="Save Changes"/>
+                                <input type="submit" class="btn btn-primary" id="bnt-save" value="Save Changes"/>
                             </div>
                         </form>
                     </div>
