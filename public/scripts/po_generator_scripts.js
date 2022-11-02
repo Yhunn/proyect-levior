@@ -215,3 +215,12 @@ function populateOffSpecification(selection){
         });
     }
 }
+
+function checkOnChange(){
+    $('#item-list tr .product-category').each(function(index, element){
+        selectCategory($(element));
+    });
+    $('#item-list tr .product-specif').each(function(index, element){
+        populateOffSpecification($(element));
+    });
+}
