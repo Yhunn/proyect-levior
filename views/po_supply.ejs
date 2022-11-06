@@ -76,7 +76,7 @@
                             <p class="h5">Load PO</p>
                             <label class="h6">Registry ID</label>
                             <div class="input-group mb-3">
-                                <select class="form-select" id="registry-select" name="registryFull" required>
+                                <select class="form-select" id="registry-select" name="registryFull" onchange="selectRegistry(this);" required>
                                     <option selected value="">Choose...</option>
                                 </select>
                             </div>
@@ -86,7 +86,7 @@
                             <label class="h6">Generation Date</label>
                             <div class="input-group mb-3">
                                 <input type="date" class="form-control" name="inputDate" id="input-date"
-                                    value="<%= //currentDate %>" readonly required>
+                                    readonly required>
                             </div>
                             <label class="h6">Update Count</label>
                             <div class="input-group mb-3">
@@ -112,13 +112,14 @@
                     <table class="table table-sm table-striped table-bordered" id="tablePO">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col" style="width: 15%;">Category</th>
+                                <th scope="col" style="width: 10%;">Category</th>
                                 <th scope="col" style="width: 25%;">Specification</th>
-                                <th scope="col" style="width: 20%;">DLC#</th>
+                                <th scope="col" style="width: 15%;">DLC#</th>
+                                <th scope="col" style="width: 15%;">Alternative Model#</th>
                                 <th scope="col" style="width: 10%;">Brand</th>
                                 <th scope="col" style="width: 10%;">Subsidiary</th>
                                 <th scope="col" style="width: 10%;">Public Cost</th>
-                                <th scope="col" style="width: 10%;">Quantity</th>
+                                <th scope="col" style="width: 5%;">Quantity</th>
                             </tr>
                         </thead>
                         <tbody id="item-list">

@@ -1,9 +1,10 @@
 //JQUERY FUNCTIONS
 function clearTable() {
-    $("#body-to-populate").html("");
+    $("#item-list").html("");
 }
 
 var loadedPoData = [];
+var productsArray = [];
 
 $(document).ready(function(){
     const userID = $('#officeIDInput').val();
@@ -20,7 +21,7 @@ $(document).ready(function(){
                 projectRes: row.project_responsible,
                 generationDate: row.po_date,
                 productId: row.product,
-                quantiy: row.quantiy,
+                quantity: row.quantity,
                 shipTo: row.ship_to,
                 requisitioner: row.requisitioner,
                 changelog: row.change_log,
@@ -33,6 +34,22 @@ $(document).ready(function(){
             });
         });
         populateRegistry();
+    });
+    fetch('/api/products/active')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row =>{
+            productsArray.push({
+                id: row.id,
+                category: row.category,
+                dlc: row.dlc_or_es_model_no,
+                brand: row.brand,
+                specification: row.specification,
+                subsidiary: row.subsidiary,
+                publicCost: row.public_cost,
+                unit: row.measurement_unit
+            });
+        });
     });
 });
 
@@ -48,3 +65,49 @@ function populateRegistry(){
         }
     });
 }
+
+function selectRegistry(selectInput){
+    clearTable();
+    if(selectInput.value == ""){
+        $('#po-form').trigger('reset');
+    }
+    loadedPoData.forEach(po =>{
+        if(po.registry == selectInput.value){
+            $('#customer-input').val(po.customerId);
+            $('#project-input').val(po.projectId);
+            $('#responsible-input').val(po.projectRes);
+            $('#input-ship').val(po.shipTo);
+            $('#input-req').val(po.requisitioner);
+            var poDate = new Date(po.generationDate);
+            var day = poDate.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            var dateString = poDate.getFullYear().toString() + "-" + (poDate.getMonth()+1).toString() + "-" + day;
+            $('#input-date').val(dateString);
+            $('#input-update').val(parseInt( po.registry4 ));
+            const productPO = productsArray.find((element)=>{
+                return element.id == po.productId;
+            })
+            const newRow = `
+                <tr>
+                    <td>${productPO.category}</td>
+                    <td>${productPO.specification}</td>
+                    <td>${productPO.dlc}</td>
+                    <td></td>
+                    <td>${productPO.brand}</td>
+                    <td>${productPO.subsidiary}</td>
+                    <td>${productPO.publicCost}</td>
+                    <td>${po.quantity}</td>
+                </tr>
+            `
+            $('#item-list').append(newRow);
+        }
+    });
+}
+
+$('#po-form').on('reset', function(e){
+    setTimeout(function() {
+        clearTable();
+    });
+});
