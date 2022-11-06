@@ -3,47 +3,48 @@ function clearTable() {
     $("#body-to-populate").html("");
 }
 
-function clearAll() {
-    $("#input-name").val("");
-    $("#input-ship").val("");
-    $("#input-req").val("");
-    $("#input-via").val("");
-    $("#input-fob").val("");
-    $("#input-terms").val("");
-    clearTable();
-}
+var loadedPoData = [];
 
-function pushSupply() {
-    $('#tablePO > tbody > tr').each(function () {
-        var pName = $("#input-name").val();
-        var shipTo = $("#input-ship").val();
-        var requis = $("#input-req").val();
-        var via = $("#input-via").val();
-        var fob = $("#input-fob").val();
-        var terms = $("#input-terms").val();
-
-        var model = $(this).find(".model").text();
-        var alt = $(this).find(".alt").text();
-        var desc = $(this).find(".desc").text();
-        var qnty = $(this).find(".qnty").text();
-
-        var poID = $("#inputGroupSelect01 option:selected").val();
-
-        $.post("PO_Query/save", {
-            pName: pName,
-            shipTo: shipTo,
-            requis: requis,
-            via: via,
-            fob: fob,
-            terms: terms,
-            model: model,
-            alt: alt,
-            desc: desc,
-            qnty: qnty,
-            poID: poID
-        },
-            function (data, status) { });
-        $(this).remove();
+$(document).ready(function(){
+    const userID = $('#officeIDInput').val();
+    fetch('/api/po/office/'+ userID)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row =>{
+            loadedPoData.push({
+                id: row.id,
+                po_responsible: row.po_responsible,
+                officeId: row.office,
+                customerId: row.customer,
+                projectId: row.project,
+                projectRes: row.project_responsible,
+                generationDate: row.po_date,
+                productId: row.product,
+                quantiy: row.quantiy,
+                shipTo: row.ship_to,
+                requisitioner: row.requisitioner,
+                changelog: row.change_log,
+                delivered: row.delivered,
+                registry: row.registry,
+                registry1: row.registry_1,
+                registry2: row.registry_2,
+                registry3: row.registry_3,
+                registry4: row.registry_4
+            });
+        });
+        populateRegistry();
     });
-    clearAll();
+});
+
+function populateRegistry(){
+    var checkedPO = [];
+    loadedPoData.forEach(po =>{
+        if(!checkedPO.includes(po.registry)){
+            checkedPO.push(po.registry);
+            $('#registry-select').append($('<option>',{
+                value: po.registry,
+                text: po.registry
+            }));
+        }
+    });
 }
