@@ -82,7 +82,13 @@ function addRowPO(){
                     <td class="product-public-cost"></td>
                     <td>
                         <div class="input-group">
-                            <input type="number" class="form-control product-unit" value="" name="quantity" required>
+                            <input type="number" class="form-control product-unit" value="" name="quantity"
+                            onchange='onQuantityChange(this);' required>
+                          </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" class="form-control total-price" value="" name="total" required readonly>
                           </div>
                     </td>
                 </tr>`);
@@ -187,6 +193,9 @@ function clearRowData(row){
     row.find('.product-public-cost').text('');
     row.find('.product-subsidiary').attr('class', 'product-subsidiary');
     row.find('.product-public-cost').attr('class', 'product-public-cost');
+    row.find('.total-price').attr('class', 'form-control total-price');
+    row.find('.product-unit').val('');
+    row.find('.total-price').val('');
     //row.find('.product-unit').val('0');
     //row.find('.product-unit').prop('disabled', true);
 }
@@ -204,10 +213,12 @@ function populateOffSpecification(selection){
                     case 'EURO':
                         row.find('.product-subsidiary').addClass('euros');
                         row.find('.product-public-cost').addClass('euros');
+                        row.find('.total-price').addClass('euros');
                         break;
                     default:
                         row.find('.product-subsidiary').addClass('dollars');
                         row.find('.product-public-cost').addClass('dollars');
+                        row.find('.total-price').addClass('dollars');
                         break;
                 }
                 row.find('.product-subsidiary').text(product.subsidiary);
@@ -223,3 +234,11 @@ $('#po-form').on('reset', function(e){
         onRowChange($('#input-row-count'));
     });
 });
+
+function onQuantityChange(input){
+    var row = $(input).closest("tr");
+    var cost = row.find('.product-public-cost').text();
+    console.log(cost);
+    var quantity = input.value;
+    row.find('.total-price').val((quantity*cost))
+}
