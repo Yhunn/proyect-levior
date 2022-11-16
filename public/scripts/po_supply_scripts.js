@@ -89,8 +89,10 @@ function selectRegistry(selectInput){
             const productPO = productsArray.find((element)=>{
                 return element.id == po.productId;
             })
+            var actual = $("#item-list > tr").length + 1;
             const newRow = `
                 <tr>
+                    <td>${actual}</td>
                     <td>${productPO.category}</td>
                     <td>${productPO.specification}</td>
                     <td>${productPO.dlc}</td>
