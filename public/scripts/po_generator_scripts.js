@@ -62,7 +62,9 @@ function onRowChange(inputRow){
 }
 
 function addRowPO(){
+    var actual = $("#item-list > tr").length + 1;
     $('#item-list').append(`<tr style="vertical-align: middle;">
+                    <td>${actual}</td>
                     <td>
                         <select class="form-select product-category" onchange='selectCategory(this);'>
                             <option selected value="">Choose...</option>
