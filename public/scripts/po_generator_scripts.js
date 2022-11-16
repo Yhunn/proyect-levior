@@ -233,6 +233,11 @@ $('#po-form').on('reset', function(e){
     setTimeout(function() {
         onRowChange($('#input-row-count'));
     });
+    alert("Form cleared");
+});
+
+$('#po-form').on('submit', function(e){
+    alert("Data successfully submitted");
 });
 
 function onQuantityChange(input){
