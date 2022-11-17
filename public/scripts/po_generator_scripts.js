@@ -83,12 +83,13 @@ function addRowPO(){
                     <td>
                         <div class="input-group">
                             <input type="number" class="form-control product-unit" value="" name="quantity"
-                            onchange='onQuantityChange(this);' required>
+                            onchange='onQuantityChange(this);' min="0" step="1" required>
                           </div>
                     </td>
                     <td>
                         <div class="input-group">
-                            <input type="number" class="form-control total-price" value="" name="total" required readonly>
+                            <input type="number" class="form-control total-price" value="" min="0"
+                            step="1" name="totalRow" required readonly>
                           </div>
                     </td>
                 </tr>`);
@@ -243,7 +244,19 @@ $('#po-form').on('submit', function(e){
 function onQuantityChange(input){
     var row = $(input).closest("tr");
     var cost = row.find('.product-public-cost').text();
-    console.log(cost);
     var quantity = input.value;
-    row.find('.total-price').val((quantity*cost))
+    row.find('.total-price').val((quantity*cost));
+
+    setBalance();
+}
+
+function setBalance(){
+    var balance = 0;
+    $("#item-list > tr").each(function() {
+        var priceRow = $(this).find(".total-price").val();
+        console.log(priceRow);
+        priceRow == "" ? null: balance = balance + parseFloat(priceRow);
+        console.log(balance);
+    });
+    $("#input-total-order").val(balance);
 }

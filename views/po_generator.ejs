@@ -36,14 +36,15 @@
                         <label class="h6">Purchase Order Data</label>
                         <div class="input-group mb-3">
                             <label class="input-group-text">Select Customer</label>
-                            <select class="form-select" id="customer-input" name="customerID" form="po-form" onchange="selectCustomer(this)" required>
+                            <select class="form-select" id="customer-input" name="customerID" form="po-form"
+                                onchange="selectCustomer(this)" required>
                                 <option selected value="">Choose...</option>
                             </select>
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text">Select Project</label>
-                            <select class="form-select" id="project-input" name="projectID" form="po-form" onchange="selectProject(this)" required
-                                disabled>
+                            <select class="form-select" id="project-input" name="projectID" form="po-form"
+                                onchange="selectProject(this)" required disabled>
                                 <option selected value="">Choose...</option>
                             </select>
                         </div>
@@ -99,8 +100,8 @@
                     <div class="col">
                         <p class="h4">Actions</p>
                         <div class="d-grid gap-2">
-                            <input class="btn btn-success" type="submit" value="Create PO"/>
-                            <input class="btn btn-danger" type="reset" value="Clear Form"/>
+                            <input class="btn btn-success" type="submit" value="Create PO" />
+                            <input class="btn btn-danger" type="reset" value="Clear Form" />
                             <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
                         </div>
                     </div>
@@ -126,6 +127,15 @@
 
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex flex-row justify-content-end p-1">
+                    <div class="border rounded p-2 mb-3">
+                        <label class="h6">Order Balance</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" style="width: 35px;">$</span>
+                            <input type="number" class="form-control" id="input-total-order" value="" name="totalOrder" readonly required>
+                        </div>
+                    </div>
                 </div>
             </form>
         </main>
