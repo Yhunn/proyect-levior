@@ -106,20 +106,20 @@ function selectRegistry(selectInput) {
                         </select>
                     </td>
                     <td>
-                        <select class="selectpicker form-select product-specif" form="po-form" name="products"
+                        <select class="form-select product-specif" form="po-form" name="products"
                         onchange='populateOffSpecification(this);' required>
                             <option selected value="">Choose...</option>
                         </select>
                     </td>
-                    <td>${productPO.dlc}</td>
+                    <td class="product-dlc">${productPO.dlc}</td>
                     <td>
-                        <select class="selectpicker form-select product-specif" form="po-form" name="alternative" required>
+                        <select class="form-select product-alt" form="po-form" name="alternative" required>
                             <option selected value="">Choose...</option>
                         </select>
                     </td>
-                    <td>${productPO.brand}</td>
-                    <td>${productPO.subsidiary}</td>
-                    <td>${productPO.publicCost}</td>
+                    <td class="product-brand">${productPO.brand}</td>
+                    <td class="product-subsidiary">${productPO.subsidiary}</td>
+                    <td class="product-public-cost">${productPO.publicCost}</td>
                     <td>
                         <div class="input-group">
                             <input type="number" class="form-control product-unit" value="${po.quantity}" name="quantity"
@@ -128,13 +128,53 @@ function selectRegistry(selectInput) {
                     </td>
                     <td>
                         <div class="input-group">
-                            <input type="number" class="form-control total-price" value="${po.total}" min="0"
+                            <input type="number" class="form-control product-total" value="${po.total}" min="0"
                             step="1" name="totalRow" required readonly>
                         </div>
                     </td>
                 </tr>
             `
             $('#item-list').append(newRow);
+            updateLastAddedRow(productPO.category, productPO.id);
+        }
+    });
+}
+
+function updateLastAddedRow(category, id){
+    updateCategories(category);
+    updateSpecifications(id, category);
+}
+
+function updateCategories(category){
+    var lastRow = $('#item-list > tr:last-child');
+    var categoryOptions ="";
+    uniqueCategories.forEach(uniqueCat =>{
+        if(uniqueCat != category){
+            categoryOptions = categoryOptions + "<option value=" + uniqueCat + ">"+ uniqueCat +"</option>"
+        }else{
+            categoryOptions = categoryOptions + "<option selected value=" + uniqueCat + ">"+ uniqueCat +"</option>"
+        }
+    });
+    lastRow.find('.product-category').append(categoryOptions);
+}
+
+function updateSpecifications(id, category){
+    var lastRow = $('#item-list > tr:last-child');
+    var altSelect = lastRow.find('.product-alt');
+    var prodSelect = lastRow.find('.product-specif');
+    productsArray.forEach(product =>{
+        if(category == product.category){
+            prodSelect.append($('<option>', {
+                value: id,
+                text: product.specification,
+                selected: product.id == id ? true : false
+            }));
+            if(product.id != id){
+                altSelect.append($('<option>', {
+                    value: id,
+                    text: product.specification
+                }))
+            }
         }
     });
 }
