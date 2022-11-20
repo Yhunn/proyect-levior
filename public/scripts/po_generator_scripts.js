@@ -84,13 +84,13 @@ function addRowPO(){
                         <div class="input-group">
                             <input type="number" class="form-control product-unit" value="" name="quantity"
                             onchange='onQuantityChange(this);' min="0" step="1" required>
-                          </div>
+                        </div>
                     </td>
                     <td>
                         <div class="input-group">
                             <input type="number" class="form-control total-price" value="" min="0"
                             step="1" name="totalRow" required readonly>
-                          </div>
+                        </div>
                     </td>
                 </tr>`);
     var uniqueCategories = [];
