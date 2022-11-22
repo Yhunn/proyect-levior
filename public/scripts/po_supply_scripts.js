@@ -150,11 +150,12 @@ function updateCategories(category){
     var categoryOptions ="";
     uniqueCategories.forEach(uniqueCat =>{
         if(uniqueCat != category){
-            categoryOptions = categoryOptions + "<option value=" + uniqueCat + ">"+ uniqueCat +"</option>"
+            categoryOptions = categoryOptions + "<option value='" + uniqueCat + "'>"+ uniqueCat +"</option>"
         }else{
-            categoryOptions = categoryOptions + "<option selected value=" + uniqueCat + ">"+ uniqueCat +"</option>"
+            categoryOptions = categoryOptions + "<option selected value='" + uniqueCat + "'>"+ uniqueCat +"</option>"
         }
     });
+    console.log(categoryOptions);
     lastRow.find('.product-category').append(categoryOptions);
 }
 
@@ -175,6 +176,18 @@ function updateSpecifications(id, category){
                     text: product.specification
                 }))
             }
+            switch (product.unit) {
+                case 'EURO':
+                    lastRow.find('.product-subsidiary').addClass('euros');
+                    lastRow.find('.product-public-cost').addClass('euros');
+                    lastRow.find('.product-total').addClass('euros');
+                    break;
+                default:
+                    lastRow.find('.product-subsidiary').addClass('dollars');
+                    lastRow.find('.product-public-cost').addClass('dollars');
+                    lastRow.find('.product-total').addClass('dollars');
+                    break;
+            }
         }
     });
 }
@@ -184,3 +197,101 @@ $('#po-form').on('reset', function (e) {
         clearTable();
     });
 });
+
+function selectCategory(selection){
+    var row = $(selection).parent().parent();
+    var specif = row.find('.product-specif');
+    var alt = row.find('.product-alt');
+    resetSpecificationRoutine(row, specif, alt);
+    if(selection.value == ""){
+        //specif.prop('disabled', true);
+    }else{
+        productsArray.forEach(product=>{
+            console.log("ES: " + product.category + " igual a: " + selection.value + "?")
+            if(product.category == selection.value){
+                specif.append($('<option>',{
+                value: product.id,
+                text: product.specification
+            }));
+            }
+        });
+        //specif.prop('disabled', false);
+    }
+}
+function resetSpecificationRoutine(row, specif, alt){
+    clearRowData(row);
+    resetSelect(specif);
+    resetSelect(alt);
+}
+
+function resetSelect(select){
+    select.empty();
+    select.append('<option selected value="">Choose...</option>');
+    select.val('');
+}
+
+function clearRowData(row){
+    row.find('.product-dlc').text('');
+    row.find('.product-brand').text('');
+    row.find('.product-subsidiary').text('');
+    row.find('.product-public-cost').text('');
+    row.find('.product-subsidiary').attr('class', 'product-subsidiary');
+    row.find('.product-public-cost').attr('class', 'product-public-cost');
+    row.find('.product-total').attr('class', 'form-control product-total');
+    row.find('.product-total').val('');
+    //row.find('.product-unit').val('0');
+    //row.find('.product-unit').prop('disabled', true);
+}
+
+function populateOffSpecification(selection){
+    var row = $(selection).parent().parent();
+    clearRowData(row);
+    if(selection.value != ""){
+        //POPULATE
+        productsArray.forEach(product =>{
+            if(product.id == selection.value){
+                row.find('.product-dlc').text(product.dlc);
+                row.find('.product-brand').text(product.brand);
+                switch (product.unit) {
+                    case 'EURO':
+                        row.find('.product-subsidiary').addClass('euros');
+                        row.find('.product-public-cost').addClass('euros');
+                        row.find('.product-total').addClass('euros');
+                        break;
+                    default:
+                        row.find('.product-subsidiary').addClass('dollars');
+                        row.find('.product-public-cost').addClass('dollars');
+                        row.find('.product-total').addClass('dollars');
+                        break;
+                }
+                row.find('.product-subsidiary').text(product.subsidiary);
+                row.find('.product-public-cost').text(product.publicCost);
+                //row.find('.product-unit').prop('disabled', false);
+            }
+        });
+        var quantity = row.find('.product-unit').val();
+        if(quantity != ""){
+            onQuantityChange(selection);
+        }
+    }
+}
+
+function onQuantityChange(input){
+    var row = $(input).closest("tr");
+    var cost = row.find('.product-public-cost').text();
+    var quantity = input.value;
+    row.find('.product-total').val((quantity*cost));
+
+    setBalance();
+}
+
+function setBalance(){
+    var balance = 0;
+    $("#item-list > tr").each(function() {
+        var priceRow = $(this).find(".product-total").val();
+        console.log(priceRow);
+        priceRow == "" ? null: balance = balance + parseFloat(priceRow);
+        console.log(balance);
+    });
+    $("#input-total-order").val(balance);
+}
