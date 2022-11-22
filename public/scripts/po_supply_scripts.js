@@ -155,7 +155,6 @@ function updateCategories(category){
             categoryOptions = categoryOptions + "<option selected value='" + uniqueCat + "'>"+ uniqueCat +"</option>"
         }
     });
-    console.log(categoryOptions);
     lastRow.find('.product-category').append(categoryOptions);
 }
 
@@ -207,7 +206,6 @@ function selectCategory(selection){
         //specif.prop('disabled', true);
     }else{
         productsArray.forEach(product=>{
-            console.log("ES: " + product.category + " igual a: " + selection.value + "?")
             if(product.category == selection.value){
                 specif.append($('<option>',{
                 value: product.id,
@@ -239,6 +237,8 @@ function clearRowData(row){
     row.find('.product-public-cost').attr('class', 'product-public-cost');
     row.find('.product-total').attr('class', 'form-control product-total');
     row.find('.product-total').val('');
+    row.find('.product-alt').empty();
+    row.find('.product-alt').val('');
     //row.find('.product-unit').val('0');
     //row.find('.product-unit').prop('disabled', true);
 }
@@ -273,7 +273,17 @@ function populateOffSpecification(selection){
         if(quantity != ""){
             onQuantityChange(selection);
         }
+        populateAlternative(row);
     }
+}
+
+function populateAlternative(row){
+    row.find('.product-specif option:not(:selected)').each(function(){
+        row.find('.product-alt').append($('<option>', {
+            value: $(this).val(),
+            text: $(this).text()
+        }));
+    });
 }
 
 function onQuantityChange(input){
@@ -289,9 +299,7 @@ function setBalance(){
     var balance = 0;
     $("#item-list > tr").each(function() {
         var priceRow = $(this).find(".product-total").val();
-        console.log(priceRow);
         priceRow == "" ? null: balance = balance + parseFloat(priceRow);
-        console.log(balance);
     });
     $("#input-total-order").val(balance);
 }

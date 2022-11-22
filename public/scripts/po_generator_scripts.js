@@ -254,9 +254,7 @@ function setBalance(){
     var balance = 0;
     $("#item-list > tr").each(function() {
         var priceRow = $(this).find(".total-price").val();
-        console.log(priceRow);
         priceRow == "" ? null: balance = balance + parseFloat(priceRow);
-        console.log(balance);
     });
     $("#input-total-order").val(balance);
 }
