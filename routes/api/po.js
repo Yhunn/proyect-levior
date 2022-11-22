@@ -41,8 +41,8 @@ router.get('/:id', (req,res) =>{
 });
 
 //UPDATE ONE
-router.post('/:id', (req, res) =>{
-    
+router.post('/:record', (req, res) =>{
+    console.log(req.body);
 });
 
 //POST ONE

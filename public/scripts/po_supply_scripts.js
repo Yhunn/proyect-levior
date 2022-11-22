@@ -165,13 +165,13 @@ function updateSpecifications(id, category){
     productsArray.forEach(product =>{
         if(category == product.category){
             prodSelect.append($('<option>', {
-                value: id,
+                value: product.id,
                 text: product.specification,
                 selected: product.id == id ? true : false
             }));
             if(product.id != id){
                 altSelect.append($('<option>', {
-                    value: id,
+                    value: product.id,
                     text: product.specification
                 }))
             }
@@ -303,3 +303,10 @@ function setBalance(){
     });
     $("#input-total-order").val(balance);
 }
+
+$("#po-form").on("submit", function(){
+    const record = $('#registry-select').val();
+    const newAction = "/api/po/" + record;
+    $("#po-form").attr('action', newAction);
+    return true;
+});
