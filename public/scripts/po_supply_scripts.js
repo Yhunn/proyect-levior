@@ -99,7 +99,10 @@ function selectRegistry(selectInput) {
             var actual = $("#item-list > tr").length + 1;
             const newRow = `
                 <tr>
-                    <td>${actual}</td>
+                    <td>
+                        ${actual}
+                        <input type="hidden" value="${po.id}" name="poID"/>
+                    </td>
                     <td>
                         <select class="form-select product-category" onchange='selectCategory(this);'>
                             <option value="">Choose...</option>
