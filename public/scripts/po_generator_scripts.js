@@ -62,7 +62,9 @@ function onRowChange(inputRow){
 }
 
 function addRowPO(){
+    var actual = $("#item-list > tr").length + 1;
     $('#item-list').append(`<tr style="vertical-align: middle;">
+                    <td>${actual}</td>
                     <td>
                         <select class="form-select product-category" onchange='selectCategory(this);'>
                             <option selected value="">Choose...</option>
@@ -80,8 +82,15 @@ function addRowPO(){
                     <td class="product-public-cost"></td>
                     <td>
                         <div class="input-group">
-                            <input type="number" class="form-control product-unit" value="" name="quantity" required>
-                          </div>
+                            <input type="number" class="form-control product-unit" value="" name="quantity"
+                            onchange='onQuantityChange(this);' min="0" step="1" required>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" class="form-control total-price" value="" min="0"
+                            step="1" name="totalRow" required readonly>
+                        </div>
                     </td>
                 </tr>`);
     var uniqueCategories = [];
@@ -185,6 +194,9 @@ function clearRowData(row){
     row.find('.product-public-cost').text('');
     row.find('.product-subsidiary').attr('class', 'product-subsidiary');
     row.find('.product-public-cost').attr('class', 'product-public-cost');
+    row.find('.total-price').attr('class', 'form-control total-price');
+    row.find('.product-unit').val('');
+    row.find('.total-price').val('');
     //row.find('.product-unit').val('0');
     //row.find('.product-unit').prop('disabled', true);
 }
@@ -202,10 +214,12 @@ function populateOffSpecification(selection){
                     case 'EURO':
                         row.find('.product-subsidiary').addClass('euros');
                         row.find('.product-public-cost').addClass('euros');
+                        row.find('.total-price').addClass('euros');
                         break;
                     default:
                         row.find('.product-subsidiary').addClass('dollars');
                         row.find('.product-public-cost').addClass('dollars');
+                        row.find('.total-price').addClass('dollars');
                         break;
                 }
                 row.find('.product-subsidiary').text(product.subsidiary);
@@ -220,4 +234,27 @@ $('#po-form').on('reset', function(e){
     setTimeout(function() {
         onRowChange($('#input-row-count'));
     });
+    alert("Form cleared");
 });
+
+$('#po-form').on('submit', function(e){
+    alert("Data successfully submitted");
+});
+
+function onQuantityChange(input){
+    var row = $(input).closest("tr");
+    var cost = row.find('.product-public-cost').text();
+    var quantity = input.value;
+    row.find('.total-price').val((quantity*cost));
+
+    setBalance();
+}
+
+function setBalance(){
+    var balance = 0;
+    $("#item-list > tr").each(function() {
+        var priceRow = $(this).find(".total-price").val();
+        priceRow == "" ? null: balance = balance + parseFloat(priceRow);
+    });
+    $("#input-total-order").val(balance);
+}

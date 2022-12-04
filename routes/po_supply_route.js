@@ -5,19 +5,7 @@ const checkPermissions = require('./check_authentication');
 router.use(checkPermissions("po_supply"));
 
 router.get('/', (req,res)=>{
-    var poToDeliverList = [];
-    try {
-        db.query(`SELECT MIN("id") AS "id", "identifierOrder" FROM "po_toDeliver_provisional" GROUP BY "identifierOrder" ORDER BY "id" ASC`)
-            .then(rows => {
-                rows.forEach(row =>{
-                    poToDeliverList.push(row.identifierOrder);
-                });
-                res.render("po_supply.ejs",{poList: poToDeliverList});
-            });
-    } catch (err) {
-        console.warn("Unable to insert into database");
-    }
-    
+    res.render("po_supply.ejs", { userOffice: req.user.office, userID: req.user.id, userName: req.user.name });
 });
 
 router.post('/populate', (req,res)=>{

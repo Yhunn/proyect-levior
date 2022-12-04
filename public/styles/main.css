@@ -11,8 +11,8 @@ main {
     content: "$ ";
 }
 
-.euros:after {
-    content: " €";
+.euros:before {
+    content: "€ ";
 }
 
 .input-group-text{
