@@ -1,45 +1,9 @@
-//NOT WORKING
-function push_PO() {
-    var rowCount = $("#input-row-count").val();
-    if (rowCount > 0) {
-        $('#tablePO > tbody > tr').each(function () {
-            var pName = $("#project-name-input").val();
-            var shipTo = $("#ship-to-input").val();
-            var requis = $("#requisitioner-input").val();
-
-            var model = $(this).find(".model").text();
-            var desc = $(this).find(".desc").text();
-            var qnty = $(this).find(".qnty").text();
-
-            var poID = $("#customID").html();
-
-            $.post("PO_Generator/save", {
-                pName: pName,
-                shipTo: shipTo,
-                requis: requis,
-                model: model,
-                desc: desc,
-                qnty: qnty,
-                poID: poID
-            },
-                function (data, status) { });
-            $(this).remove();
-        });
-        $("#project-name-input").val("");
-        $("#ship-to-input").val("");
-        $("#requisitioner-input").val("");
-        $("#input-row-count").attr("value", "0");
-    }
-    else {
-        alert("No hay datos")
-    }
-}
 
 var productsArray = [];
+var projectsArray = [];
 //FILLING PRODUCT DATA
 $(document).ready(function(){
-    setEditable();
-    fetch('/PO_Generator/productData')
+    fetch('/api/products/active')
     .then(response => response.json())
     .then(data => {
         data.forEach(row =>{
@@ -55,19 +19,61 @@ $(document).ready(function(){
             });
         });
     });
+    fetch('/api/customers')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row => {
+            if(row.city == +$('#officeIDInput').val() || $('#officeIDInput').val() == 1){
+                $('#customer-input').append($('<option>',{
+                    value: row.id,
+                    text: row.name
+                }));
+            }
+        });
+    });
+    fetch('/api/projects')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row => {
+            projectsArray.push({
+                id: row.id,
+                utility: row.utility,
+                customer: row.from_customer,
+                responsible: row.responsible
+            });
+        });
+    });
 });
 
+var rowCount = 0;
+
+function onRowChange(inputRow){
+    var changeValue= $(inputRow).val()
+    if(changeValue > rowCount){
+        for (rowCount; rowCount < changeValue; rowCount++) {
+            addRowPO();            
+        }
+    }
+    if(changeValue < rowCount){
+        for (rowCount; rowCount > changeValue; rowCount--) {
+            removeRowPO();            
+        }
+    }
+}
+
 function addRowPO(){
+    var actual = $("#item-list > tr").length + 1;
     $('#item-list').append(`<tr style="vertical-align: middle;">
+                    <td>${actual}</td>
                     <td>
                         <select class="form-select product-category" onchange='selectCategory(this);'>
-                            <option selected value="0">Choose...</option>
+                            <option selected value="">Choose...</option>
                         </select>
                     </td>
                     <td>
-                        <select class="selectpicker form-select product-specif" onfocus='this.size=5;'
-                            onblur='this.size=1;' onchange='this.size=1; populateOffSpecification(this); this.blur();' disabled >
-                            <option selected value="0">Choose...</option>
+                        <select class="selectpicker form-select product-specif" form="po-form" name="products"
+                        onchange='populateOffSpecification(this);' required>
+                            <option selected value="">Choose...</option>
                         </select>
                     </td>
                     <td class="product-dlc"></td>
@@ -76,8 +82,15 @@ function addRowPO(){
                     <td class="product-public-cost"></td>
                     <td>
                         <div class="input-group">
-                            <input type="number" class="form-control product-unit" value="0" disabled>
-                          </div>
+                            <input type="number" class="form-control product-unit" value="" name="quantity"
+                            onchange='onQuantityChange(this);' min="0" step="1" required>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" class="form-control total-price" value="" min="0"
+                            step="1" name="totalRow" required readonly>
+                        </div>
                     </td>
                 </tr>`);
     var uniqueCategories = [];
@@ -90,42 +103,88 @@ function addRowPO(){
             }));
         }
     });
-    var rowCount = +$("#input-row-count").val() + 1;
-    $("#input-row-count").val(rowCount);
 }
 
 function removeRowPO(){
-    var rowCount = $("#input-row-count").val();
-    if(rowCount>0){
-        $('#item-list tr:last-child').remove();
-        $("#input-row-count").val(rowCount-1);
+    $('#item-list tr:last-child').remove();
+}
+
+function btnPressedRemove(){
+    const rowInput = +$("#input-row-count").val();
+    if (rowInput > 0) {
+        $("#input-row-count").val(rowInput-1);
     }
+    $("#input-row-count").change();
+}
+
+function btnPressedAdd(){
+    const rowInput = +$("#input-row-count").val();
+    $("#input-row-count").val(rowInput+1);
+    $("#input-row-count").change();
 }
 
 function selectCategory(selection){
     var row = $(selection).parent().parent();
     var specif = row.find('.product-specif');
     resetSpecificationRoutine(row, specif);
-    if(selection.value == "0"){
-        specif.prop('disabled', true);
+    if(selection.value == ""){
+        //specif.prop('disabled', true);
     }else{
         productsArray.forEach(product=>{
             if(product.category == selection.value){
                 specif.append($('<option>',{
-                value: product.specification,
+                value: product.id,
                 text: product.specification
             }));
             }
         });
-        specif.prop('disabled', false);
+        //specif.prop('disabled', false);
+    }
+}
+
+function selectCustomer(selection){
+    var projectInput= $('#project-input');
+    if(selection.value == ""){
+        $(projectInput).empty();
+        $(projectInput).append('<option selected value="">Choose...</option>');
+        $(projectInput).val('');
+        $(projectInput).attr('disabled', true);
+        $(projectInput).change();
+    } else{
+        projectsArray.forEach(project =>{
+            if (project.customer == selection.value) {
+                $(projectInput).append($('<option>',{
+                    value: project.id,
+                    text: project.utility
+                }));
+            }
+        });
+        $(projectInput).removeAttr('disabled');
+    }
+}
+
+function selectProject(selection){
+    var projectInput= $('#responsible-input');
+    if(selection.value == ""){
+        $(projectInput).removeAttr('readonly');
+        $(projectInput).attr('value','');
+        $(projectInput).attr('readonly', true);
+    }else{
+        projectsArray.forEach(project =>{
+            if(project.id == selection.value){
+                $(projectInput).removeAttr('readonly');
+                $(projectInput).attr('value', project.responsible);
+                $(projectInput).attr('readonly', true);
+            }
+        });
     }
 }
 
 function resetSpecificationRoutine(row, specif){
     clearRowData(row);
     specif.empty();
-    specif.append('<option selected value="0">Choose...</option>');
-    specif.val('0');    
+    specif.append('<option selected value="">Choose...</option>');
+    specif.val('');    
 }
 
 function clearRowData(row){
@@ -135,33 +194,67 @@ function clearRowData(row){
     row.find('.product-public-cost').text('');
     row.find('.product-subsidiary').attr('class', 'product-subsidiary');
     row.find('.product-public-cost').attr('class', 'product-public-cost');
-    row.find('.product-unit').val('0');
-    row.find('.product-unit').prop('disabled', true);
+    row.find('.total-price').attr('class', 'form-control total-price');
+    row.find('.product-unit').val('');
+    row.find('.total-price').val('');
+    //row.find('.product-unit').val('0');
+    //row.find('.product-unit').prop('disabled', true);
 }
 
 function populateOffSpecification(selection){
     var row = $(selection).parent().parent();
     clearRowData(row);
-    if(selection.value != "0"){
+    if(selection.value != ""){
         //POPULATE
         productsArray.forEach(product =>{
-            if(product.specification == selection.value){
+            if(product.id == selection.value){
                 row.find('.product-dlc').text(product.dlc);
                 row.find('.product-brand').text(product.brand);
                 switch (product.unit) {
                     case 'EURO':
                         row.find('.product-subsidiary').addClass('euros');
                         row.find('.product-public-cost').addClass('euros');
+                        row.find('.total-price').addClass('euros');
                         break;
                     default:
                         row.find('.product-subsidiary').addClass('dollars');
                         row.find('.product-public-cost').addClass('dollars');
+                        row.find('.total-price').addClass('dollars');
                         break;
                 }
                 row.find('.product-subsidiary').text(product.subsidiary);
                 row.find('.product-public-cost').text(product.publicCost);
-                row.find('.product-unit').prop('disabled', false);
+                //row.find('.product-unit').prop('disabled', false);
             }
         });
     }
+}
+
+$('#po-form').on('reset', function(e){
+    setTimeout(function() {
+        onRowChange($('#input-row-count'));
+    });
+    alert("Form cleared");
+});
+
+$('#po-form').on('submit', function(e){
+    alert("Data successfully submitted");
+});
+
+function onQuantityChange(input){
+    var row = $(input).closest("tr");
+    var cost = row.find('.product-public-cost').text();
+    var quantity = input.value;
+    row.find('.total-price').val((quantity*cost));
+
+    setBalance();
+}
+
+function setBalance(){
+    var balance = 0;
+    $("#item-list > tr").each(function() {
+        var priceRow = $(this).find(".total-price").val();
+        priceRow == "" ? null: balance = balance + parseFloat(priceRow);
+    });
+    $("#input-total-order").val(balance);
 }

@@ -2,14 +2,24 @@ main {
     margin-left: 15px;
     margin-right: 15px;
 }
+
+.current_state::after {
+    content: "% ";
+}
+
 .dollars:before {
     content: "$ ";
 }
 
-.euros:after {
-    content: " €";
+.euros:before {
+    content: "€ ";
 }
 
 .input-group-text{
-    width: 150px;
+    width: 155px;
+    font-weight: 500;
+}
+input[readonly]{
+   background-color: #e9ecef;
+   
 }

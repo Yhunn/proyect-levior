@@ -42,11 +42,9 @@ app.delete('/logout', function(req, res, next) {
     });
   });
 
+//APP ROUTES
 const loginRoute = require("./routes/login_user_route");
 app.use("/login", loginRoute);
-
-const usersRoute = require("./routes/users_route");
-app.use("/users", usersRoute);
 
 const poGenRoute = require("./routes/po_gen_route");
 app.use("/PO_Generator", poGenRoute);
@@ -56,6 +54,15 @@ app.use("/PO_Supply", poSupplyRoute);
 
 const productsRoute = require("./routes/products_route");
 app.use("/products", productsRoute);
+
+const customersRoute = require("./routes/customers_route");
+app.use("/customers", customersRoute);
+
+const projectsRoute = require("./routes/projects_route");
+app.use("/projects", projectsRoute);
+
+const apiRoute = require("./routes/api");
+app.use("/api", apiRoute);
 
 //MIDDLEWARE FUNCTIONS
 function checkAuthenticated(req, res, next){

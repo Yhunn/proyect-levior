@@ -21,29 +21,10 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
-                        <% const permissionsForProductsView = ['*'] %>
-                        <% if (permissionsForProductsView.some(r=> views.includes(r))) { %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/products">Products</a>
-                            </li>
-                        <% } %>
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="/users">Users</a>
                         </li>
-                        <!--<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Manage Users
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/users">Users</a></li>
-                                <li><a class="dropdown-item" href="#">Register</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Drop User</a></li>
-                            </ul>
-                        </li>-->
                     </ul>
                     <!-- LOGOUT BTN -->
                         <form class="form-inline my-2 my-lg-0 navbar-nav" role="logout" action='/logout?_method=DELETE' method="POST">
@@ -60,39 +41,99 @@
     <!-- MAIN AND ELEMENTS TO LOAD -->
     <main>
         <p class="h1">Home</p>
-
         <p class="h3">Available Tools</p>
-        
-        <div class="row">
-            <!-- CHECK PERMISSIONS TO LOAD PO GENERATOR-->
-            <% const permissionsForPOGen = ['*','1'] %>
-            <% if (permissionsForPOGen.some(r=> views.includes(r))) { %>
-                <div class="col-sm-4 mt-3 col-lg-4">
-                    <div class="card h-100">
-                        <div class="card-header">Processing</div>
-                        <div class="card-body">
-                            <h5 class="card-title">Purchase Order Generator</h5>
-                            <p class="card-text">Generate new Purchase Orders and queue them to deliver.</p>
-                            <a href="/PO_Generator" class="btn btn-primary">Open Tool</a>
+        <%
+            const permissionsForProductsView = ['*'];
+            const permissionsForCustomerView = ['*'];
+            const permissionsForProjectsView = ['*','1','2'];
+
+            const permissionsForDataManagement = [permissionsForProductsView, permissionsForCustomerView, permissionsForProjectsView].flat();
+
+        %>
+        <% if (permissionsForDataManagement.some(r=> views.includes(r))) { %>
+            <div class="row">
+            <p class="h4 mt-3 mb-0">Data Management</p>
+                <!-- CHECK PERMISSIONS FOR PRODUCTS -->
+                <% if (permissionsForProductsView.some(r=> views.includes(r))) { %>
+                    <div class="col-sm-4 mt-3 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">Data Management</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Products</h5>
+                                <p class="card-text">Admin Operations. Administrate the product databases content.</p>
+                                <a href="/products" class="btn btn-success">Open Tool</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <% } %>
-            <!-- CHECK PERMISSIONS TO LOAD PO SUPPLY-->
-            <% const permissionsForPOSupply = ['*','2'] %> 
-            <% if (permissionsForPOSupply.some(r=> views.includes(r))) { %>
-                <div class="col-sm-4 mt-3 col-lg-4">
-                    <div class="card h-100">
-                        <div class="card-header">Processing</div>
-                        <div class="card-body">
-                            <h5 class="card-title">Purchase Order Supply</h5>
-                            <p class="card-text">Edit, validate and supply incoming Purchase Orders.</p>
-                            <a href="/PO_Supply" class="btn btn-primary">Open Tool</a>
+                <% } %>
+
+                <!-- CHECK PERMISSIONS FOR CUSTOMER -->
+                <% if (permissionsForCustomerView.some(r=> views.includes(r))) { %>
+                    <div class="col-sm-4 mt-3 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">Data Management</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Customers</h5>
+                                <p class="card-text">Admin Operations. Administrate the customer databases content.</p>
+                                <a href="/customers" class="btn btn-success">Open Tool</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <% } %>
-        </div>
+                <% } %>
+
+                <!-- CHECK PERMISSIONS FOR POJECTS -->
+                <% if (permissionsForProjectsView.some(r=> views.includes(r))) { %>
+                    <div class="col-sm-4 mt-3 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">Data Management</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Projects</h5>
+                                <p class="card-text">Admin Operations. Generate and manage new projects.</p>
+                                <a href="/projects" class="btn btn-success">Open Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+        <% 
+            const permissionsForPOGen = ['*','1'];
+            const permissionsForPOSupply = ['*','2'];
+
+            const permissionsForProcessing = [permissionsForPOGen, permissionsForPOSupply].flat();
+        %>
+        <% if (permissionsForProcessing.some(r=> views.includes(r))) { %>
+            <div class="row">
+            <p class="h4 mt-3 mb-0">Processing</p>
+                <!-- CHECK PERMISSIONS TO LOAD PO GENERATOR-->
+                <% if (permissionsForPOGen.some(r=> views.includes(r))) { %>
+                    <div class="col-sm-4 mt-3 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">Processing</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Purchase Order Generator</h5>
+                                <p class="card-text">Generate new Purchase Orders and queue them to deliver.</p>
+                                <a href="/PO_Generator" class="btn btn-primary">Open Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- CHECK PERMISSIONS TO LOAD PO SUPPLY-->
+                <% if (permissionsForPOSupply.some(r=> views.includes(r))) { %>
+                    <div class="col-sm-4 mt-3 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">Processing</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Purchase Order Supply</h5>
+                                <p class="card-text">Edit, validate and supply incoming Purchase Orders.</p>
+                                <a href="/PO_Supply" class="btn btn-primary">Open Tool</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
     </main>
 </body>
 </html>

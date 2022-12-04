@@ -1,32 +1,10 @@
-function push_Product(){
-    var category = $('#category-input').val();
-    var dlc = $('#dlc-input').val();
-    var brand = $('#brand-input').val();
-    var specification = $('#specification-input').val();
-    var subsidiary = $('#subsidiary-input').val();
-    var publicCost = $('#public-cost-input').val();
-    var unit = $( "#unit-input option:selected" ).text();
-    
-    $.post("products/save", {
-        category: category,
-        dlc: dlc,
-        brand: brand,
-        specification: specification,
-        subsidiary: subsidiary,
-        publicCost: publicCost,
-        unit: unit
-    },
-    function (data, status) {
-        location.reload();
-    });
-}
-
 var productsArray = [];
 $(document).ready(function(){
-    fetch('/products/getData')
+    fetch('/api/products')
     .then(response => response.json())
     .then(data => {
         data.forEach(row =>{
+            var status = row.active_product == true ? "Active" : "Inactive";
             $('#product-list').append(`<tr style="vertical-align: middle;">
                                 <td class="id">`+row.id+`</td>
                                 <td class="category">`+row.category+`</td>
@@ -36,10 +14,19 @@ $(document).ready(function(){
                                 <td class="subsidiary">`+row.subsidiary+`</td>
                                 <td class="public-cost">`+row.public_cost+`</td>
                                 <td class="unit">`+row.measurement_unit+`</td>
+                                <td class="status">`+status+`</td>
                                 <td class="edit text-center"><button class="btn" onclick="editRow(this)"><i class="fa fa-pencil-square-o"></i></button></td>
                             </tr>`);
         });
     });
+});
+
+$("#change-form").on("submit", function(){
+    const id = $('#id-input-modal').val();
+    const newAction = "/api/products/" + id;
+    console.log(id);
+    $("#change-form").attr('action', newAction);
+    return true;
 });
 
 function editRow(button){
@@ -52,6 +39,7 @@ function editRow(button){
     var subsidiary = row.find('.subsidiary').text();
     var publicCost = row.find('.public-cost').text();
     var unit = row.find('.unit').text();
+    var status = row.find('.status').text();
     $('#id-input-modal').val(id);
     $('#category-input-modal').val(category);
     $('#dlc-input-modal').val(dlc);
@@ -61,43 +49,19 @@ function editRow(button){
     $('#public-cost-input-modal').val(publicCost);
     $( "#unit-input-modal").val(unit);
     $('#pop-up-content').modal('toggle');
+    if(status == "Inactive"){
+        $("#activeSwitch").prop('checked', false);
+    }
 }
 
-function pushChanges(){
+function checkActivation(){
     var id = $('#id-input-modal').val();
-    var category = $('#category-input-modal').val();
-    var dlc = $('#dlc-input-modal').val();
-    var brand = $('#brand-input-modal').val();
-    var specification = $('#specification-input-modal').val();
-    var subsidiary = $('#subsidiary-input-modal').val();
-    var publicCost = $('#public-cost-input-modal').val();
-    var unit = $( "#unit-input-modal option:selected" ).text();
-    
-    $.post("products/change", {
-        id: id,
-        category: category,
-        dlc: dlc,
-        brand: brand,
-        specification: specification,
-        subsidiary: subsidiary,
-        publicCost: publicCost,
-        unit: unit
+    var ischecked= $("#activeSwitch").is(':checked');
+    console.log(id);
+    $.post("api/products/status/"+id, {
+        status: ischecked
     },
     function (data, status) {
         location.reload();
-    });
-}
-
-function deleteProduct(){
-    var id = $('#id-input-modal').val();
-    $.ajax({
-        url: '/products/delete',
-        type: 'DELETE',
-        data:{
-            "id": id
-        },
-        success: function(data, status){
-            location.reload();
-        }
     });
 }

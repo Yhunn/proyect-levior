@@ -2,105 +2,144 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head.ejs') %> 
-    <title>Purchase Order Supply Tool</title>
+    <%- include('partials/head.ejs') %>
+        <title>Purchase Order Supply Tool</title>
 </head>
 
 <body>
-    <%- include('partials/header.ejs') %> 
-    <main style="margin-left: 15px;margin-right: 15px;">
-        <p class="h3">Purchase Order Supply</p>
-        <div class="row align-items-start">
-            <div class="col-sm-9">
+    <%- include('partials/header.ejs') %>
+        <main>
+            <p class="h3">Purchase Order Supply</p>
+            <form action="" method="post" id="po-form">
                 <div class="row align-items-start">
-                    <div class="col-sm-9">
+                    <div class="col-sm-8">
+                        <!-- USER DATA -->
+                        <label class="h6">Current User Data</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">UserID</span>
+                            <input type="text" class="form-control" name="userID" placeholder="User ID"
+                                aria-label="UserID" value="<%= userID %>" readonly>
+                            <span class="input-group-text">User</span>
+                            <input type="text" class="form-control" name="userName" placeholder="User Name"
+                                aria-label="User" value="<%= userName %>" readonly>
+                            <span class="input-group-text">Office</span>
+                            <input type="text" class="form-control" name="userOffice" placeholder="Office ID"
+                                aria-label="Office" id="officeIDInput" value="<%= userOffice %>" readonly>
+                        </div>
                         <!--FORM PO GENERATOR TODELIVER-->
+                        <label class="h6">Purchase Order Data</label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" >Project Name</span>
-                            <input type="text" class="form-control" placeholder="Project Name" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="input-name">
+                            <label class="input-group-text">Select Customer</label>
+                            <input type="text" class="form-control" placeholder="Select Project to Load"
+                                name="customerID" id="customer-input" readonly required>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" >Ship TO</span>
-                            <input type="text" class="form-control" placeholder="Ship To" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="input-ship">
+                            <label class="input-group-text">Select Project</label>
+                            <input type="text" class="form-control" placeholder="Select Project to Load"
+                                name="projectID" id="project-input" readonly required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Project Resposible</span>
+                            <input type="text" class="form-control" placeholder="Select Project to Load"
+                                name="responsibleID" id="responsible-input" readonly required>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" >Requisitioner</span>
-                            <input type="text" class="form-control" placeholder="Requisitioner" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="input-req">
+                            <span class="input-group-text" id="basic-addon1">Ship TO</span>
+                            <input type="text" class="form-control" placeholder="Select Project to Load" 
+                                id="input-ship" name="shipTo" required readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" >SHIP VIA</span>
-                            <input type="text" class="form-control" placeholder="Ship VIA" aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="input-via">
+                            <span class="input-group-text" id="basic-addon1">Requisitioner</span>
+                            <input type="text" class="form-control" placeholder="Select Project to Load" 
+                                id="input-req" name="requisitioner" required readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" >F.O.B.</span>
-                            <input type="text" class="form-control" placeholder="F.O.B." aria-label="placeholder"
-                                aria-describedby="basic-addon1" id="input-fob">
+                            <span class="input-group-text" id="basic-addon1">Ship VIA</span>
+                            <input type="text" class="form-control" placeholder="Ship VIA" 
+                                id="input-via" name="shipVia" required>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" >Shipping Terms</span>
+                            <span class="input-group-text" id="basic-addon1">F.O.B.</span>
+                            <input type="text" class="form-control" placeholder="F.O.B." 
+                                id="input-fob" name="fob" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Shipping Terms</span>
                             <input type="text" class="form-control" placeholder="Shipping Terms"
-                                aria-label="placeholder" aria-describedby="basic-addon1" id="input-terms">
+                                 id="input-terms" name="shipTerms" required>
                         </div>
-                        <!--ITEM TABLE-->
-                        <label for="basic-url" class="form-label h3">Items</label>
-                        <table class="table table-striped" id="tablePO">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Model</th>
-                                    <th scope="col">Alternative Model</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody class="editable-body" id="body-to-populate">
-                            </tbody>
-                        </table>
                     </div>
                     <!--MIDDLE COLUMN-->
-                    <div class="col-3">
-                        <p class="h6">Load PO</p>
-                        <div class="input-group mb-3">
-                            <label class="input-group-text" for="inputGroupSelect01" style="width: auto;">PO No.</label>
-                            <select class="form-select" id="inputGroupSelect01" onchange="selectPO()">
-                                <option selected value="0">Choose...</option>
-                                <% for(var i=0; i<poList.length; i++) { %>
-                                    <option value="<%= poList[i] %> ">
-                                        <%= poList[i] %>
-                                    </option>
-                                    <% } %>
-                            </select>
+                    <div class="col">
+                        <div class="border rounded p-2 mb-3">
+                            <p class="h5">Load PO</p>
+                            <label class="h6">Record ID</label>
+                            <div class="input-group mb-3">
+                                <select class="form-select" id="registry-select" name="registryFull" onchange="selectRegistry(this);" required>
+                                    <option selected value="">Choose...</option>
+                                </select>
+                            </div>
                         </div>
-                        <p class="h6">PO Data</p>
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Input Date</th>
-                                    <td>03/09/2022</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Purchase Order No.</th>
-                                    <td>ELP-2022-1</td>
-                                </tr>
-                        </table>
+                        <div class="border rounded p-2 mb-3">
+                            <p class="h5">PO Data</p>
+                            <label class="h6">Generation Date</label>
+                            <div class="input-group mb-3">
+                                <input type="date" class="form-control" name="inputDate" id="input-date"
+                                    readonly required>
+                            </div>
+                            <label class="h6">Update Count</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" name="updateCount" id="input-update"
+                                    placeholder="Checked × times" readonly required>
+                            </div>
+                        </div>
+                    </div>
+                    <!--RIGHT BUTTON SET-->
+                    <div class="col">
+                        <p class="h4">Actions</p>
+                        <div class="d-grid gap-2">
+                            <input class="btn btn-success" type="submit" value="Supply PO"/>
+                            <button class="btn btn-secondary" type="button" onclick="window.print()">Print PDF</button>
+                            <input class="btn btn-danger" type="reset" value="Clear Form"/>
+                            <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!--RIGHT BUTTON SET-->
-            <div class="col-3">
-                <p class="h4">Actions</p>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-success" type="button" onclick="pushSupply()">Supply PO</button>
-                    <button class="btn btn-secondary" type="button" onclick="window.print()">Print PDF</button>
-                    <button class="btn btn-danger" type="button" onclick="clearAll()">Clear Form</button>
-                    <a class="btn btn-primary" type="button" href="/">Return to Menu</a>
+                <div>
+                    <!--ITEM TABLE-->
+                    <label for="basic-url" class="form-label h3">Items</label>
+                    <table class="table table-sm table-striped table-bordered" id="tablePO">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" style="width: 2.5%;">#</th>
+                                <th scope="col" style="width: 10%;">Category</th>
+                                <th scope="col" style="width: 17.5%;">Specification</th>
+                                <th scope="col" style="width: 12.5%;">DLC#</th>
+                                <th scope="col" style="width: 12.5%;">Alternative Model#</th>
+                                <th scope="col" style="width: 10%;">Brand</th>
+                                <th scope="col" style="width: 10%;">Subsidiary</th>
+                                <th scope="col" style="width: 10%;">Public Cost</th>
+                                <th scope="col" style="width: 5%;">Quantity</th>
+                                <th scope="col" style="width: 10%;">Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="item-list">
+
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </div>
-    </main>
+                <div class="d-flex flex-row justify-content-end p-1">
+                    <div class="border rounded p-2 mb-3">
+                        <label class="h6">Order Balance</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" style="width: 35px;">$</span>
+                            <input type="number" class="form-control" id="input-total-order" value="" name="totalOrder" readonly required>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
 </body>
 <script type="text/javascript" src="scripts/common_scripts.js"></script>
 <script type="text/javascript" src="scripts/po_supply_scripts.js"></script>
