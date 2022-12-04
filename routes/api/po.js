@@ -61,7 +61,7 @@ router.post('/:record', async (req, res) =>{
                     ship_via=$12, fob=$13, ship_terms=$14, change_log=$15, delivered=true, registry=$16, registry_1=$17, 
                     registry_2=$18, registry_3=$19, registry_4=$20, total_item=$21:raw, order_balance=$22:raw
                     WHERE id=$23;`,
-                    [userID, userOffice, customerID, projectID, responsibleID,  inputDate, products[i], parseInt(quantity),
+                    [userID, userOffice, customerID, projectID, responsibleID,  inputDate, products[i], parseInt(quantity[i]),
                     alternative[i], shipTo, requisitioner, shipVia, fob, shipTerms, updateLog, newRecordID,
                     poCustomIdParts[0], poCustomIdParts[1], poCustomIdParts[2], updateChange, totalRow[i], totalOrder, poID[i]]);
             });
