@@ -3,7 +3,7 @@ const db = require('./index');
 
 var query = `CREATE TABLE public.office_locations
 (
-    id integer NOT NULL DEFAULT nextval('office_locations_id_seq'::regclass),
+    id serial NOT NULL,
     office_name character varying(30) COLLATE pg_catalog."default",
     address character varying(120) COLLATE pg_catalog."default",
     phone character varying(30) COLLATE pg_catalog."default",
@@ -17,7 +17,7 @@ TABLESPACE pg_default;
 
 CREATE TABLE public.providers
 (
-    id integer NOT NULL,
+    id serial NOT NULL,
     name character varying(60) COLLATE pg_catalog."default",
     address character varying(120) COLLATE pg_catalog."default",
     phone_number character varying(30) COLLATE pg_catalog."default",
@@ -29,7 +29,7 @@ TABLESPACE pg_default;
 
 CREATE TABLE public.customers
 (
-    id integer NOT NULL DEFAULT nextval('customers_id_seq'::regclass),
+    id serial NOT NULL,
     name character varying(90) COLLATE pg_catalog."default",
     address character varying(120) COLLATE pg_catalog."default",
     account character varying(30) COLLATE pg_catalog."default",
@@ -49,7 +49,7 @@ TABLESPACE pg_default;
 
 CREATE TABLE public.products
 (
-    id integer NOT NULL DEFAULT nextval('products_id_seq'::regclass),
+    id serial NOT NULL,
     category character varying(30) COLLATE pg_catalog."default",
     dlc_or_es_model_no character varying(60) COLLATE pg_catalog."default",
     brand character varying(30) COLLATE pg_catalog."default",
@@ -65,7 +65,7 @@ TABLESPACE pg_default;
 
 CREATE TABLE public.users
 (
-    id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass),
+    id serial NOT NULL,
     name character varying(30) COLLATE pg_catalog."default",
     last_name character varying(30) COLLATE pg_catalog."default",
     personal_address character varying(120) COLLATE pg_catalog."default",
@@ -96,7 +96,7 @@ TABLESPACE pg_default;
 
 CREATE TABLE public.projects
 (
-    id integer NOT NULL DEFAULT nextval('proyects_id_seq'::regclass),
+    id serial NOT NULL,
     utility character varying(30) COLLATE pg_catalog."default",
     from_customer integer,
     office integer,
@@ -112,7 +112,7 @@ TABLESPACE pg_default;
 
 CREATE TABLE public.purchase_orders
 (
-    id integer NOT NULL DEFAULT nextval('purchase_order_id_seq'::regclass),
+    id serial NOT NULL,
     po_responsible integer,
     office integer,
     customer integer,
